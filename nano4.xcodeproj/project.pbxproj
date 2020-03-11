@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031C987B241674BB00E5DA99 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031C987A241674BB00E5DA99 /* SwiftUIView.swift */; };
+		031C987D2417C05B00E5DA99 /* degreesRadians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031C987C2417C05B00E5DA99 /* degreesRadians.swift */; };
 		03FA993D240FCB2400B96E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA993C240FCB2400B96E5E /* AppDelegate.swift */; };
 		03FA993F240FCB2400B96E5E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 03FA993E240FCB2400B96E5E /* GameScene.sks */; };
 		03FA9941240FCB2400B96E5E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 03FA9940240FCB2400B96E5E /* Actions.sks */; };
@@ -15,9 +17,17 @@
 		03FA9948240FCB2400B96E5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03FA9946240FCB2400B96E5E /* Main.storyboard */; };
 		03FA994A240FCB2800B96E5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03FA9949240FCB2800B96E5E /* Assets.xcassets */; };
 		03FA994D240FCB2800B96E5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03FA994B240FCB2800B96E5E /* LaunchScreen.storyboard */; };
+		03FA9955240FCF8400B96E5E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA9954240FCF8400B96E5E /* Player.swift */; };
+		03FA99572411405A00B96E5E /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA99562411405A00B96E5E /* Tile.swift */; };
+		03FA99592414555500B96E5E /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA99582414555400B96E5E /* CGPoint.swift */; };
+		03FA995B241455C100B96E5E /* SpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA995A241455C100B96E5E /* SpriteNode.swift */; };
+		03FA995F2414666D00B96E5E /* Lava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA995E2414666D00B96E5E /* Lava.swift */; };
+		03FA99612415668600B96E5E /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA99602415668600B96E5E /* Enemy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		031C987A241674BB00E5DA99 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		031C987C2417C05B00E5DA99 /* degreesRadians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = degreesRadians.swift; sourceTree = "<group>"; };
 		03FA9939240FCB2400B96E5E /* nano4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nano4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03FA993C240FCB2400B96E5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03FA993E240FCB2400B96E5E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -28,6 +38,12 @@
 		03FA9949240FCB2800B96E5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03FA994C240FCB2800B96E5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03FA994E240FCB2800B96E5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03FA9954240FCF8400B96E5E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		03FA99562411405A00B96E5E /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
+		03FA99582414555400B96E5E /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
+		03FA995A241455C100B96E5E /* SpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteNode.swift; sourceTree = "<group>"; };
+		03FA995E2414666D00B96E5E /* Lava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lava.swift; sourceTree = "<group>"; };
+		03FA99602415668600B96E5E /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +85,24 @@
 				03FA9949240FCB2800B96E5E /* Assets.xcassets */,
 				03FA994B240FCB2800B96E5E /* LaunchScreen.storyboard */,
 				03FA994E240FCB2800B96E5E /* Info.plist */,
+				03FA9954240FCF8400B96E5E /* Player.swift */,
+				03FA99562411405A00B96E5E /* Tile.swift */,
+				03FA995D2414562900B96E5E /* extensions */,
+				03FA995E2414666D00B96E5E /* Lava.swift */,
+				03FA99602415668600B96E5E /* Enemy.swift */,
+				031C987A241674BB00E5DA99 /* SwiftUIView.swift */,
 			);
 			path = nano4;
+			sourceTree = "<group>";
+		};
+		03FA995D2414562900B96E5E /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				03FA99582414555400B96E5E /* CGPoint.swift */,
+				03FA995A241455C100B96E5E /* SpriteNode.swift */,
+				031C987C2417C05B00E5DA99 /* degreesRadians.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,8 +179,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				03FA9943240FCB2400B96E5E /* GameScene.swift in Sources */,
+				03FA995F2414666D00B96E5E /* Lava.swift in Sources */,
 				03FA9945240FCB2400B96E5E /* GameViewController.swift in Sources */,
+				03FA99572411405A00B96E5E /* Tile.swift in Sources */,
+				031C987B241674BB00E5DA99 /* SwiftUIView.swift in Sources */,
+				031C987D2417C05B00E5DA99 /* degreesRadians.swift in Sources */,
 				03FA993D240FCB2400B96E5E /* AppDelegate.swift in Sources */,
+				03FA99612415668600B96E5E /* Enemy.swift in Sources */,
+				03FA995B241455C100B96E5E /* SpriteNode.swift in Sources */,
+				03FA9955240FCF8400B96E5E /* Player.swift in Sources */,
+				03FA99592414555500B96E5E /* CGPoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
