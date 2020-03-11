@@ -29,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// The node where the camera's inside. Used for the camera's move animation.
     var camNode : SKNode = SKNode()
     var lastCameraUpdate : TimeInterval = TimeInterval(0)
+    var camUpdateInterval : TimeInterval = 0.15
+    var camMoveVelocity : TimeInterval = 0.2
     
     // Lava
     var lava : Lava!
@@ -221,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         // Atualizações periódicas
-        if abs(currentTime.distance(to: lastCameraUpdate)) > 0.2 {
+        if abs(currentTime.distance(to: lastCameraUpdate)) > camUpdateInterval {
             
             // Move a câmera
             moveCamera(currentTime: currentTime)
@@ -410,7 +412,7 @@ extension GameScene {
      - currentTime: the current time when the function was called (normally from the `update` function).
      */
     func moveCamera(currentTime: TimeInterval) {
-        let moveAnimaton = SKAction.moveTo(y: player.node.position.y+300, duration: 0.2)
+        let moveAnimaton = SKAction.moveTo(y: player.node.position.y+300, duration: camMoveVelocity)
         //moveAnimaton.timingMode = .easeIn
         camNode.run(moveAnimaton)
         lastCameraUpdate = currentTime
