@@ -22,7 +22,8 @@ class GameViewController: UIViewController {
                 scene.scaleMode = .aspectFill
                 
                 // Present the scene
-                view.presentScene(scene)
+                let animation = SKTransition.fade(with: .black, duration: 2.0)
+                view.presentScene(scene, transition: animation)
             }
             view.ignoresSiblingOrder = true
             
