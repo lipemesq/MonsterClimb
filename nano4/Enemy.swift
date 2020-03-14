@@ -17,6 +17,7 @@ class Enemy: EnemyMovement {
     init (scene: GameScene,node: SKSpriteNode) {
         self.scene = scene
         self.node = node
+        self.node.zPosition = 10
     }
     
     func startMoving() {
@@ -47,7 +48,7 @@ class CircularMovementEnemy: Enemy {
         let circlePath = UIBezierPath(ovalIn: CGRect(x: node.position.x - radius, y: node.position.y - radius, width: 2*radius, height: 2*radius))
         circlePath.apply(.init(rotationAngle: initialRotation.toRadians))
         
-        let runInCircles = SKAction.repeatForever(SKAction.follow(circlePath.cgPath, asOffset: false, orientToPath: false, speed: speed))
+        let runInCircles = SKAction.repeatForever(SKAction.follow(circlePath.cgPath, asOffset: false, orientToPath: true, speed: speed))
         
         node.run(runInCircles)
     }
@@ -73,9 +74,9 @@ class LinearMovementEnemy: Enemy {
             path.addLine(to: p)
         }
         
-        let going = SKAction.follow(path.cgPath, asOffset: false, orientToPath: false, speed: speed)
+        let going = SKAction.follow(path.cgPath, asOffset: false, orientToPath: true, speed: speed)
         
-        let returning = SKAction.follow(path.reversing().cgPath, asOffset: false, orientToPath: false, speed: speed)
+        let returning = SKAction.follow(path.reversing().cgPath, asOffset: false, orientToPath: true, speed: speed)
         
         let runInPath = SKAction.repeatForever(SKAction.sequence([
             going, returning

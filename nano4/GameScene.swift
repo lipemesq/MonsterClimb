@@ -11,17 +11,30 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    deinit{print("GameScene deinited")}
-
-    
     // ******************************************
     // MARK: - PROPERTIES
+    
+    // Controle do fluxo
+    var reseting = false
+    var lastGameUpdate : TimeInterval = TimeInterval(0)
+    var gameUpdateInterval : TimeInterval = 0.175
+    var initialTime : TimeInterval!
+    var initalTapDelay = TimeInterval(3)
+    var firstUpdate = true
+    var canDoInitialTap = false
+    var tapp = false
+    
+    // Pontos
+    var pointsNode : SKSpriteNode!
+    var pontos = 0
     
     // Tiles
     var presetTiles : [Tile] = []
     var inGameTiles : [Tile] = []
     var tilesProbabilityList : [Int] = []
     var lastTileAdded = -1
+    var mostDifficultTileNumber = 4
+    var newTilesCount = 0
     
     // Player
     var player : Player!
@@ -32,31 +45,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// The node where the camera's inside. Used for the camera's move animation.
     var camNode : SKNode = SKNode()
     var lastCameraUpdate : TimeInterval = TimeInterval(0)
-    var camUpdateInterval : TimeInterval = 0.175
-    var camMoveVelocity : TimeInterval = 0.175
+    var camUpdateInterval : TimeInterval = 0.2
+    var camMoveVelocity : TimeInterval = 0.3
     
     // Lava
     var lava : Lava!
-    var lavaSpeed : CGFloat = 1//3
+    var lavaSpeed : CGFloat = 2
     let maxLavaSpeed : CGFloat = 6
-    let lavaAcceleration : CGFloat = 0.00001
+    let lavaAcceleration : CGFloat = 0.0001
     
     // Próximos pontos de apoio
     var nearFootholds : [CGPoint] = []
     var spritesOfNearFootholds : [SKSpriteNode] = []
     var actualFoothold : CGPoint?
 
-    
+    var titleGame : SKSpriteNode!
     // ******************************************
     // MARK: - START
     
     override func didMove(to view: SKView) {
         
-        // Adiciona o pan pro swipe
-//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.longRecognizer(long:)))
-//        view.addGestureRecognizer(longPress)
-        
-        // e o tap pro toque
+        // adiciona o tap controller
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer(tap:)))
         view.addGestureRecognizer(tap)
         
@@ -65,20 +74,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Cria o player
         player = Player(scene: self)
-        player.node.turnPhysicsOff()
-        player.node.blendMode = .replace
-        addChild(player.node)
+        player.node.turnPhysicsOff(offset: CGPoint(x: -33, y: 0))
+        //addChild(player.node)
         player.node.physicsBody?.isDynamic = false
         
-        player.nose.blendMode = .replace
-        player.nose.position = CGPoint(x: 30, y: 0)
-        player.node.addChild(player.nose)
-        
-
+        // Pausa a fisica do jogo
+        //scene?.isPaused = true
+        scene?.physicsWorld.speed = 0
         
         // coloca o circulo de raio
         let circle = SKShapeNode(circleOfRadius: maxJumpDistance ) // Size of Circle
-        player.node.addChild(circle)
+        //player.node.addChild(circle)
         circle.position = .zero
         circle.strokeColor = SKColor.green
         circle.glowWidth = 1.0
@@ -97,10 +103,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Inicia a camera
         addChild(camNode)
         camera = cam
+        let background = SKSpriteNode(texture: SKTexture(imageNamed: "fundo"), size: CGSize(width: 750, height: 1334))
+        background.zPosition = -10
+        camNode.insertChild(background, at: 0)
         camNode.addChild(camera!)
         
+        // titulo
+        titleGame = (scene?.childNode(withName: "title") as! SKSpriteNode)
+        titleGame.zPosition = 22
+        
+        // pontos
+        pointsNode = (scene?.childNode(withName: "pontos") as! SKSpriteNode)
+        pointsNode.zPosition = 22
+        pointsNode.move(toParent: camNode)
+        
+        
         // Pega os prefabs de fase
-        for i in 1...7 {
+        for i in 1...4 {
             let tile = self.childNode(withName: "fase\(i)") as! Tile
             presetTiles.append(tile)
             for _ in 1...tile.getProbability() {
@@ -109,10 +128,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Ordena as próximas fases
-        for _ in 0...2 {
-            let tile = presetTiles[drawNextTileNumber()].copy() as! Tile
-            inGameTiles.append(tile)
-            insertChild(tile, at: 0)
+        for i in 0...2 {
+            if i == 0 {
+                let tile = presetTiles[0].copy() as! Tile
+                inGameTiles.append(tile)
+                insertChild(tile, at: 0)
+            }
+            else {
+                let tile = presetTiles[drawNextTileNumber()].copy() as! Tile
+                inGameTiles.append(tile)
+                insertChild(tile, at: 0)
+                
+            }
         }
         
         // Adiciona os tiles na cena, cada um com sua altura
@@ -140,20 +167,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Setup Lava
         lava = Lava(scene: self)
-        lava.node.blendMode = .replace
+        lava.node.zPosition = 1
         lava.node.turnPhysicsOff()
         lava.node.physicsBody?.isResting = true
-//        lava.node.physicsBody?.isDynamic = false
-        lava.node.physicsBody!.categoryBitMask = 1//player.node.physicsBody!.collisionBitMask
+        lava.node.physicsBody!.categoryBitMask = 1
         lava.node.physicsBody!.contactTestBitMask = player.node.physicsBody!.categoryBitMask
         lava.node.physicsBody!.collisionBitMask = 0
+        
+        
+        // frase de start
+        boxTapToStart = SKShapeNode()
+        boxTapToStart.zPosition = 21
+        let corners : UIRectCorner = .allCorners
+        boxTapToStart.path = UIBezierPath(roundedRect: CGRect(x: -200, y: -40, width: 400, height: 100), byRoundingCorners: corners, cornerRadii: CGSize(width: 50, height: 50)).cgPath
+        boxTapToStart.position = CGPoint(x: 0, y: -100)
+        boxTapToStart.fillColor = UIColor.init(named: "escuro")!
+        boxTapToStart.strokeColor = UIColor.init(named: "vermelho")!
+        boxTapToStart.lineWidth = 16
+        addChild(boxTapToStart)
+        
+        let tapToStartLabel = SKLabelNode(text: "Tap a foothold to start")
+        tapToStartLabel.fontName = "Existence-Light"
+        tapToStartLabel.fontSize = 34
+        tapToStartLabel.fontColor = .yellow
+        tapToStartLabel.position = CGPoint(x: 0, y: 0)
+        boxTapToStart.addChild(tapToStartLabel)
+        boxTapToStart.run(SKAction.repeatForever( SKAction.init(named: "Pulse")!))
     }
+    var boxTapToStart : SKShapeNode!
+    
+    func setupEnemy(enemy: SKSpriteNode) {
+        // turn off physics and add collision
+        enemy.turnPhysicsOff()
+        enemy.physicsBody?.categoryBitMask = 4
+        enemy.physicsBody?.collisionBitMask = 0//player.node.physicsBody!.categoryBitMask
+        enemy.physicsBody!.contactTestBitMask = player.node.physicsBody!.categoryBitMask
+        enemy.physicsBody?.restitution = 0.6
+    }
+    
+    
     
     
     // ******************************************
     // MARK: - UPDATE
-    var initialTime : TimeInterval!
-    var firstUpdate = true
+    var startTime = TimeInterval(0)
+    var started = false
     override func update(_ currentTime: TimeInterval) {
         
         if firstUpdate {
@@ -161,11 +219,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             initialTime = currentTime
         }
         
+        if currentTime > initalTapDelay {
+            print("ja é maior")
+            canDoInitialTap = true
+        }
+        
+        if (scene?.physicsWorld.speed)! > CGFloat(0) && !started {
+            started = true
+            startTime = currentTime
+        }
+        
         // Atualizações periódicas
-        if abs(currentTime.distance(to: lastCameraUpdate)) > camUpdateInterval {
+        if abs(currentTime.distance(to: lastGameUpdate)) > gameUpdateInterval {
+            lastGameUpdate = currentTime
             
             // Move a câmera
-            moveCamera(currentTime: currentTime)
+            //moveCamera(currentTime: currentTime)
             
             // Verifica se daqui a pouco o player chega num tile novo
             let lastTile = inGameTiles.last!
@@ -180,90 +249,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        // Sobe a lava
-        if lavaSpeed < maxLavaSpeed {
-            lavaSpeed += lavaAcceleration
-        }
-        else {
-            lavaSpeed = maxLavaSpeed
+        if tapp {
+            tapp = false
+            lastCameraUpdate = currentTime
         }
         
-        let x = (currentTime - initialTime)
-        let yVariationControl = (lavaSpeed / maxLavaSpeed)
-        let lavaSpeedVariation = CGFloat(1.5*sin(x*0.22)) * yVariationControl
-        
-        let lavaAdvance = lavaSpeed + (lavaSpeedVariation > 0 ? lavaSpeedVariation : 0)
-        print("lava speed: ", lavaSpeed)
-        
-        lava.node.position.y += lavaAdvance
-        removeBottomTileIfBelowLava()
-    }
-    
-    
-    func setupEnemy(enemy: SKSpriteNode) {
-        // turn off physics and add collision
-        enemy.turnPhysicsOff()
-        enemy.physicsBody?.categoryBitMask = 4
-        enemy.physicsBody?.collisionBitMask = 0//player.node.physicsBody!.categoryBitMask
-        enemy.physicsBody!.contactTestBitMask = player.node.physicsBody!.categoryBitMask
-    }
-    
-    
-    
-    /**
-     Animate the player jumping to a point, and do a completion after. Set the player's state to `.jumping`.
-     
-     Uses the player's `getJumpPath` to get the path of the jump. The speed of animation is 1000, and its linear. At the end change the player's state to `.idle` with the `change` function.
-     
-     - Parameters:
-         - to: The point to which the player will jump.
-         - completion: The completion block after the jump animation. Optional. If null, runs `player.change(to: .idle)`.
-     */
-    func playerJump(to: CGPoint, completion: os_block_t? = nil)  {
-        player.status = .jumping
-        
-        let jumpSpeed : CGFloat = 900
-        
-        let jumpPath = player.getJumpPath(to: to)
-        let movey = SKAction.follow(jumpPath, asOffset: false, orientToPath: false, speed: jumpSpeed)
-        
-        let distance = player.node.position.distance(to: to)
-        let minDuration = distance / jumpSpeed
-        let side : CGFloat = player.node.position.x > to.x ? -1 : 1
-        
-        let rotate = SKAction.rotate(byAngle: CGFloat(side * 20 ).toRadians, duration: TimeInterval(0.4*minDuration))
-//         rotate.timingFunction = {
-//            time in
-//            if time > 0.98 {
-//                return 1
-//            }
-//            let ts = time * time
-//            //let tq = ts * time
-//            return 0.03617559 - 0.5075462*time + 1.418831*ts// + 1.418831*tq//-0.001634018 + 0.739019*time - 1.295628*ts + 1.557971*tq
-//        }
-        let rotateBack = SKAction.rotate(byAngle: CGFloat(side * -20).toRadians, duration: TimeInterval(0.3*minDuration))
-        let seq = SKAction.sequence([rotate, SKAction.wait(forDuration: TimeInterval(0.4*minDuration)), rotateBack])
-        
-        let group : SKAction
-        if minDuration > 0.35 {
-            group = SKAction.group([movey, seq])
-        }
-        else {
-            group = SKAction.group([movey])
-        }
+        if lastCameraUpdate != 0 && abs(currentTime.distance(to: lastCameraUpdate)) > camUpdateInterval {
             
+            print("moveu")
+            //moveCamera(currentTime: currentTime)
+
+            lastCameraUpdate = 0
+            
+        }
+        moveCamera(currentTime: currentTime)
+
         
-        player.node.run(group, completion: {
-            if completion != nil {
-                completion!()
+        // Sobe a lava
+        if (scene?.physicsWorld.speed)! > CGFloat(0) {
+            pontos = Int(currentTime - startTime)
+            print("pontos = \(pontos)")
+            (pointsNode.children[0] as! SKLabelNode).text = String(pontos)
+            
+            if lavaSpeed < maxLavaSpeed {
+                lavaSpeed += lavaAcceleration
             }
             else {
-                self.player.changeStatus(to: .idle)
+                lavaSpeed = maxLavaSpeed
             }
-        })
+            
+            let x = (currentTime - initialTime)
+            let yVariationControl = (lavaSpeed / maxLavaSpeed)
+            let lavaSpeedVariation = CGFloat(1.5*sin(x*0.22)) * yVariationControl
+            
+            let lavaAdvance = lavaSpeed + (lavaSpeedVariation > 0 ? lavaSpeedVariation : 0)
+            
+            lava.node.position.y += lavaAdvance * scene!.speed
+            removeBottomTileIfBelowLava()
+        }
     }
     
+
     
+    // ******************************************
+    // MARK: - TILE CONTROL
     
     /**
      Add to the top of tiles a new one, from the preset list, that's granted different from the last one.
@@ -298,11 +327,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // accelerate the lava
         if lavaSpeed < maxLavaSpeed {
-            print("lava speed: ", lavaSpeed)
+            //print("lava speed: ", lavaSpeed)
             lavaSpeed += lavaAcceleration
         }
+        
+        // Atualiza a contagem de novos tiles
+        newTilesCount += 1
+        updateGameDifficulty()
     }
-    
     
     
     func drawNextTileNumber() -> Int {
@@ -311,10 +343,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         repeat {
             randomIndex = Int.random(in: tilesProbabilityList.indices)
             randomTileNumber = tilesProbabilityList[randomIndex]
-        } while randomTileNumber == lastTileAdded
+        } while (randomTileNumber == lastTileAdded) || (randomTileNumber > mostDifficultTileNumber)
         lastTileAdded = randomTileNumber
         
         return randomTileNumber
+    }
+    
+    
+    func updateGameDifficulty() {
+        if  (newTilesCount == 1)  ||
+            (newTilesCount == 4)  ||
+            (newTilesCount == 7)  ||
+            (newTilesCount == 12) {
+            mostDifficultTileNumber += 3
+        }
     }
     
 
@@ -338,6 +380,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             inGameTiles.remove(at: 0)
         }
     }
+    
+    var progress: Double = 0
+    var timer : Timer!
+    
+     @objc func updateProgress() {
+        guard progress <= 1 else {
+            timer.invalidate()
+            return
+        }
+        progress += 0.01
+        
+        scene!.speed = CGFloat(1 - progress * 0.9)
+        self.physicsWorld.speed = CGFloat(1 - progress * 0.9)
+    }
 
 }
 
@@ -348,16 +404,21 @@ extension GameScene {
     
     // Trata o início de uma colisão
     func didBegin(_ contact: SKPhysicsContact) {
-        print("A: \(contact.bodyA), B: \(contact.bodyB)")
-        player.node.turnPhysicsOn()
-        player.changeStatus(to: .falling)
-        
-//        scene!.speed = 0.4
-//        self.physicsWorld.speed = 0.4
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
-//            self.resetGame()
-//        })
-
+        //print("A: \(contact.bodyA), B: \(contact.bodyB)")
+        if !reseting {
+            reseting = true
+            player.node.turnPhysicsOn()
+            player.changeStatus(to: .falling)
+            
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.warning)
+            
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target:self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+                self.resetGame()
+            })
+        }
     }
     
     func resetGame() {
@@ -366,8 +427,9 @@ extension GameScene {
         
         let newScene = SKScene(fileNamed: "GameScene")!
         newScene.scaleMode = self.scaleMode
-        //let animation = SKTransition.fade(withDuration: 2.0)
-        self.view?.presentScene(newScene)
+        let animation = SKTransition.fade(withDuration: 2.0)
+        self.view?.presentScene(newScene, transition: animation)
+        reseting = false
     }
     
 }
@@ -389,7 +451,7 @@ extension GameScene {
         let moveAnimaton = SKAction.moveTo(y: player.node.position.y+300, duration: camMoveVelocity)
         //moveAnimaton.timingMode = .easeIn
         camNode.run(moveAnimaton)
-        lastCameraUpdate = currentTime
+        //lastCameraUpdate = currentTime
     }
 }
 
@@ -400,70 +462,187 @@ extension GameScene {
 extension GameScene {
     
     @objc func tapRecognizer(tap: UITapGestureRecognizer) {
-        let pos = self.convertPoint(fromView: tap.location(in: view))
-        
-        let touchPointMarker = SKSpriteNode(color: .magenta, size: CGSize(width: 10, height: 10))
-        touchPointMarker.position = pos
-        
-        addChild(touchPointMarker)
-    
-        var nextFoothold : CGPoint?
-        for (i, sprite) in spritesOfNearFootholds.enumerated() {
-            let foothold = nearFootholds[i]
-            if foothold != actualFoothold {
-                if self.nodes(at: pos).contains(sprite) {
-                    let distance = player.node.position.distance(to: foothold)
-                    if distance < maxJumpDistance {
-                        sprite.color = .green
-                        nextFoothold = foothold
+        if scene!.physicsWorld.speed > 0 {
+            let pos = self.convertPoint(fromView: tap.location(in: view))
+            
+            let touchPointMarker = SKSpriteNode(color: .magenta, size: CGSize(width: 10, height: 10))
+            touchPointMarker.position = pos
+            
+            // TODO: - Marker point
+            //addChild(touchPointMarker)
+            
+            var nextFoothold : CGPoint?
+            for (i, sprite) in spritesOfNearFootholds.enumerated() {
+                let foothold = nearFootholds[i]
+                if foothold != actualFoothold {
+                    if self.nodes(at: pos).contains(sprite) {
+                        let distance = player.node.position.distance(to: foothold)
+                        if distance < maxJumpDistance {
+                            nextFoothold = foothold
+                        }
                     }
                 }
             }
-        }
-        
-        if pos.x > player.node.position.x {
-            player.node.xScale = 1
-        }
-        else {
-            player.node.xScale = -1
-        }
-        
-        if nextFoothold != nil {
-            actualFoothold = nextFoothold
-            if player.status == .idle {
-                playerJump(to: nextFoothold!, completion: {
-                    self.player.changeStatus(to: .idle)
+            
+            if pos.x > player.node.position.x {
+                player.node.xScale = 1
+                player.leftFoot.xScale = 1
+                player.rightFoot.xScale = 1
+                
+                //player.node.turnPhysicsOff(offset: CGPoint(x: -33, y: 0))
+                
+                player.rightKnee.shouldEnableLimits = true
+                player.rightKnee.lowerAngleLimit = CGFloat(-60).toRadians
+                player.rightKnee.upperAngleLimit = CGFloat(0).toRadians
+                player.leftKnee.shouldEnableLimits = true
+                player.leftKnee.lowerAngleLimit = CGFloat(-60).toRadians
+                player.leftKnee.upperAngleLimit = CGFloat(0).toRadians
+                
+                player.rightLeg.physicsBody!.applyForce(.init(dx: 500, dy: 0))
+                player.rightFoot.physicsBody!.applyForce(.init(dx: 500, dy: 0))
+            }
+            else {
+                player.node.xScale = -1
+                player.leftFoot.xScale = -1
+                player.rightFoot.xScale = -1
+                
+                //player.node.turnPhysicsOff(offset: CGPoint(x: 33, y: 0))
+                
+                player.rightKnee.shouldEnableLimits = true
+                player.rightKnee.lowerAngleLimit = CGFloat(0).toRadians
+                player.rightKnee.upperAngleLimit = CGFloat(60).toRadians
+                player.leftKnee.shouldEnableLimits = true
+                player.leftKnee.lowerAngleLimit = CGFloat(0).toRadians
+                player.leftKnee.upperAngleLimit = CGFloat(60).toRadians
+                
+                player.rightLeg.physicsBody!.applyForce(.init(dx: -500, dy: 0))
+                player.rightFoot.physicsBody!.applyForce(.init(dx: -500, dy: 0))
+            }
+            
+            if nextFoothold != nil {
+                actualFoothold = nextFoothold
+                if player.status == .idle {
+                    let generator = UISelectionFeedbackGenerator()
+                    generator.selectionChanged()
                     
-                    for (i, foothold) in self.nearFootholds.enumerated() {
-                        let distance = self.player.node.position.distance(to: foothold)
-                        if self.spritesOfNearFootholds[i].children.count > 0 {
-                          //  (self.spritesOfNearFootholds[i].children.first as! SKLabelNode).text = "\(distance)"
-                        }
-                        else {
-//                            let lbl = SKLabelNode(text: "\(distance)")
-//                            lbl.fontName = UIFont.boldSystemFont(ofSize: 18).fontName
-//                            self.spritesOfNearFootholds[i].addChild(lbl)
-                        }
+                    playerJump(to: nextFoothold!, completion: {
+                        self.player.changeStatus(to: .idle)
+                        self.tapp = true
                         
-                        if distance < self.maxJumpDistance {
-                           // self.spritesOfNearFootholds[self.nearFootholds.firstIndex(of: foothold)!].color = .blue
+                        for (i, foothold) in self.nearFootholds.enumerated() {
+                            let distance = self.player.node.position.distance(to: foothold)
+                            if self.spritesOfNearFootholds[i].children.count > 0 {
+                                //  (self.spritesOfNearFootholds[i].children.first as! SKLabelNode).text = "\(distance)"
+                            }
+                            else {
+                                //                            let lbl = SKLabelNode(text: "\(distance)")
+                                //                            lbl.fontName = UIFont.boldSystemFont(ofSize: 18).fontName
+                                //                            self.spritesOfNearFootholds[i].addChild(lbl)
+                            }
+                            
+                            if distance < self.maxJumpDistance {
+                                // self.spritesOfNearFootholds[self.nearFootholds.firstIndex(of: foothold)!].color = .blue
+                            }
+                            else {
+                                //self.spritesOfNearFootholds[self.nearFootholds.firstIndex(of: foothold)!].color = .orange
+                            }
                         }
-                        else {
-                            //self.spritesOfNearFootholds[self.nearFootholds.firstIndex(of: foothold)!].color = .orange
-                        }
-                    }
-                })
+                    })
+                }
             }
+            else {
+                if player.status == .idle {
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.warning)
+                    
+                    reseting = true
+                    
+                    playerJump(to: pos, completion: {
+                        self.tapp = true
+                        self.player.changeStatus(to: .falling)
+                        self.player.node.turnPhysicsOn()
+                        
+                        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target:self, selector: #selector(self.updateProgress), userInfo: nil, repeats: true)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+                            self.resetGame()
+                        })
+                    })
+                }
+            }
+            
         }
         else {
-            if player.status == .idle {
-                playerJump(to: pos, completion: {
-                    self.player.changeStatus(to: .falling)
-                    self.player.node.turnPhysicsOn()
-                })
+            if canDoInitialTap {
+                if boxTapToStart.parent != nil {
+                    boxTapToStart.removeFromParent()
+                    titleGame.removeFromParent()
+                }
+                scene!.isPaused = false
+                scene?.physicsWorld.speed = 1
             }
+            // gameStart()
+        }
+    }
+}
+
+
+
+// ******************************************
+// MARK: PLAYER MOVEMENTS
+
+extension GameScene {
+    /**
+     Animate the player jumping to a point, and do a completion after. Set the player's state to `.jumping`.
+     
+     Uses the player's `getJumpPath` to get the path of the jump. The speed of animation is 1000, and its linear. At the end change the player's state to `.idle` with the `change` function.
+     
+     - Parameters:
+     - to: The point to which the player will jump.
+     - completion: The completion block after the jump animation. Optional. If null, runs `player.change(to: .idle)`.
+     */
+    func playerJump(to: CGPoint, completion: os_block_t? = nil)  {
+        player.status = .jumping
+        
+        let jumpSpeed : CGFloat = 900
+        
+        let jumpPath = player.getJumpPath(to: to)
+        let movey = SKAction.follow(jumpPath, asOffset: false, orientToPath: false, speed: jumpSpeed)
+        
+        let distance = player.node.position.distance(to: to)
+        let minDuration = distance / jumpSpeed
+        let side : CGFloat = player.node.position.x > to.x ? -1 : 1
+        
+        let rotate = SKAction.rotate(byAngle: CGFloat(side * 20 ).toRadians, duration: TimeInterval(0.4*minDuration))
+        //         rotate.timingFunction = {
+        //            time in
+        //            if time > 0.98 {
+        //                return 1
+        //            }
+        //            let ts = time * time
+        //            //let tq = ts * time
+        //            return 0.03617559 - 0.5075462*time + 1.418831*ts// + 1.418831*tq//-0.001634018 + 0.739019*time - 1.295628*ts + 1.557971*tq
+        //        }
+        let rotateBack = SKAction.rotate(byAngle: CGFloat(side * -20).toRadians, duration: TimeInterval(0.3*minDuration))
+        let seq = SKAction.sequence([rotate, SKAction.wait(forDuration: TimeInterval(0.4*minDuration)), rotateBack])
+        
+        let group : SKAction
+        if minDuration > 0.35 {
+            group = SKAction.group([movey, seq])
+        }
+        else {
+            group = SKAction.group([movey])
         }
         
+        
+        player.node.run(group, completion: {
+            if completion != nil {
+                completion!()
+            }
+            else {
+                self.player.changeStatus(to: .idle)
+            }
+        })
     }
 }
 
@@ -475,13 +654,13 @@ extension GameScene {
     func addLegsAndFoots() {
         addChild(player.leftLeg)
         player.leftLeg.position = player.node.position + CGPoint(x: -10, y: -player.node.size.height / 2)
-        player.leftLeg.physicsBody = SKPhysicsBody()
+        player.leftLeg.physicsBody = SKPhysicsBody(rectangleOf: player.leftLeg.size)
         player.leftLeg.physicsBody?.isDynamic = true
         player.leftLeg.physicsBody?.affectedByGravity = true
         
         addChild(player.leftFoot)
         player.leftFoot.position = player.leftLeg.position + CGPoint(x: 0, y: -player.leftLeg.size.height)
-        player.leftFoot.physicsBody = SKPhysicsBody()
+        player.leftFoot.physicsBody = SKPhysicsBody(rectangleOf: player.leftFoot.size)
         player.leftFoot.physicsBody?.isDynamic = true
         player.leftFoot.physicsBody?.affectedByGravity = true
         
@@ -489,15 +668,16 @@ extension GameScene {
         
         addChild(player.rightLeg)
         player.rightLeg.position = player.node.position + CGPoint(x: 10, y: -player.node.size.height / 2)
-        player.rightLeg.physicsBody = SKPhysicsBody()
+        player.rightLeg.physicsBody = SKPhysicsBody(rectangleOf: player.rightLeg.size)
         player.rightLeg.physicsBody?.isDynamic = true
         player.rightLeg.physicsBody?.affectedByGravity = true
         
         addChild(player.rightFoot)
         player.rightFoot.position = player.rightLeg.position + CGPoint(x: 0, y: -player.rightLeg.size.height)
-        player.rightFoot.physicsBody = SKPhysicsBody()
+        player.rightFoot.physicsBody = SKPhysicsBody(rectangleOf: player.rightFoot.size)
         player.rightFoot.physicsBody?.isDynamic = true
         player.rightFoot.physicsBody?.affectedByGravity = true
+        
         
         
         // Remove a colisão
@@ -512,39 +692,33 @@ extension GameScene {
         player.leftFoot.physicsBody?.categoryBitMask  = 0
         
         
-        player.leftLeg.physicsBody?.mass = 1
-        player.rightLeg.physicsBody?.mass = 1
-        player.rightFoot.physicsBody?.mass = 0.1
-        player.leftFoot.physicsBody?.mass = 0.1
-        
-        
-        let pinJointE = SKPhysicsJointPin.joint(withBodyA: player.node.physicsBody!,
+        let leftLegJoint = SKPhysicsJointPin.joint(withBodyA: player.node.physicsBody!,
                                                 bodyB: player.leftLeg.physicsBody!,
                                                 anchor: player.node.position + CGPoint(x: -10, y: -player.node.size.height / 2))
-        scene!.physicsWorld.add(pinJointE)
+        scene!.physicsWorld.add(leftLegJoint)
         
-        let pinJointD = SKPhysicsJointPin.joint(withBodyA: player.node.physicsBody!,
+        let rightLegJoint = SKPhysicsJointPin.joint(withBodyA: player.node.physicsBody!,
                                                 bodyB: player.rightLeg.physicsBody!,
                                                 anchor: player.node.position + CGPoint(x: 10, y: -player.node.size.height / 2))
-        scene!.physicsWorld.add(pinJointD)
+        scene!.physicsWorld.add(rightLegJoint)
         
         
         
-        let pinJointCalcE = SKPhysicsJointPin.joint(withBodyA: player.leftLeg.physicsBody!,
+        player.leftKnee = SKPhysicsJointPin.joint(withBodyA: player.leftLeg.physicsBody!,
                                                     bodyB: player.leftFoot.physicsBody!,
                                                     anchor: player.leftLeg.position + CGPoint(x: 0, y: -player.leftLeg.size.height))
-        pinJointCalcE.shouldEnableLimits = true
-        pinJointCalcE.lowerAngleLimit = CGFloat(-90).toRadians
-        pinJointCalcE.upperAngleLimit = CGFloat(90).toRadians
-        scene!.physicsWorld.add(pinJointCalcE)
+        player.leftKnee.shouldEnableLimits = true
+        player.leftKnee.lowerAngleLimit = CGFloat(-60).toRadians
+        player.leftKnee.upperAngleLimit = CGFloat(0).toRadians
+        scene!.physicsWorld.add(player.leftKnee)
         
-        let pinJointCalcD = SKPhysicsJointPin.joint(withBodyA: player.rightLeg.physicsBody!,
+        player.rightKnee = SKPhysicsJointPin.joint(withBodyA: player.rightLeg.physicsBody!,
                                                     bodyB: player.rightFoot.physicsBody!,
                                                     anchor: player.rightLeg.position + CGPoint(x: 0, y: -player.rightLeg.size.height))
-        pinJointCalcD.shouldEnableLimits = true
-        pinJointCalcD.lowerAngleLimit = CGFloat(-90).toRadians
-        pinJointCalcD.upperAngleLimit = CGFloat(90).toRadians
-        scene!.physicsWorld.add(pinJointCalcD)
+        player.rightKnee.shouldEnableLimits = true
+        player.rightKnee.lowerAngleLimit = CGFloat(-60).toRadians
+        player.rightKnee.upperAngleLimit = CGFloat(0).toRadians
+        scene!.physicsWorld.add(player.rightKnee)
     }
     
     

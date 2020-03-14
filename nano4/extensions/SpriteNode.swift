@@ -9,8 +9,8 @@
 import SpriteKit
 
 extension SKSpriteNode {
-    func turnPhysicsOff() {
-        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
+    func turnPhysicsOff(offset: CGPoint = .zero) {
+        self.physicsBody = SKPhysicsBody(rectangleOf: self.size, center: offset)
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.isDynamic = true
         self.physicsBody?.allowsRotation = false

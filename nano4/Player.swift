@@ -23,26 +23,36 @@ class Player {
     
     var leftFoot : SKSpriteNode
     var rightFoot : SKSpriteNode
-    var nose : SKSpriteNode
+
+    var rightKnee  : SKPhysicsJointPin!
+    var leftKnee  : SKPhysicsJointPin!
     
     init(scene: GameScene) {
         self.scene = scene
-        self.node = SKSpriteNode(color: .green, size: .init(width: 80, height: 130))//(imageNamed: "player")
+        self.node = scene.childNode(withName: "player") as! SKSpriteNode //SKSpriteNode(color: .green, size: .init(width: 80, height: 130))
+        self.node.position = CGPoint(x: 100, y: -300)
+        self.node.zPosition = 10
+
+        let legWidth = 7
+        let feetWidth = 30
         
-        nose = SKSpriteNode(color: .red, size: CGSize(width: 15, height: 15))
-        
-        rightLeg = SKSpriteNode(color: .cyan, size: .init(width: 30, height: 100))
+        rightLeg = SKSpriteNode(texture: SKTexture(imageNamed: "pernaa"), size: .init(width: legWidth, height: 60))
         rightLeg.anchorPoint = .init(x: 0.5, y: 1)
         
-        leftLeg = SKSpriteNode(color: .cyan, size: .init(width: 30, height: 100))
+        leftLeg = SKSpriteNode(texture: SKTexture(imageNamed: "pernaa"), size: .init(width: legWidth, height: 60))
         leftLeg.anchorPoint = .init(x: 0.5, y: 1)
         
         
-        rightFoot = SKSpriteNode(color: .systemTeal, size: .init(width: 30, height: 100))
-        rightFoot.anchorPoint = .init(x: 0.5, y: 1)
+        rightFoot = SKSpriteNode(texture: SKTexture(imageNamed: "peDireito"), size: .init(width: feetWidth, height: 32*feetWidth/13))
+        rightFoot.anchorPoint = .init(x: 0.1, y: 0.9)
         
-        leftFoot = SKSpriteNode(color: .systemTeal, size: .init(width: 30, height: 100))
-        leftFoot.anchorPoint = .init(x: 0.5, y: 1)
+        leftFoot = SKSpriteNode(texture: SKTexture(imageNamed: "peDireito"), size: .init(width: feetWidth, height: 32*feetWidth/13))
+        leftFoot.anchorPoint = .init(x: 0.1, y: 0.9)
+        
+        rightLeg.zPosition = 10
+        rightFoot.zPosition = 10
+        leftLeg.zPosition = 10
+        leftFoot.zPosition = 10
     }
     
     var status : PlayerStatus = .idle
@@ -66,11 +76,11 @@ class Player {
     }
     
     func idle() {
-        scene.player.node.color = .init(red: .random(in: 0.3...0.98), green: .random(in: 0.3...0.98), blue: .random(in: 0.3...0.98), alpha: 1)
+        //scene.player.node.color = .init(red: .random(in: 0.3...0.98), green: .random(in: 0.3...0.98), blue: .random(in: 0.3...0.98), alpha: 1)
     }
     
     func fall() {
-        scene.player.node.color = .red
+        //scene.player.node.color = .red
     }
     
     func getJumpPath(to: CGPoint) -> CGPath {

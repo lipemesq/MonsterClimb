@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		031C987B241674BB00E5DA99 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031C987A241674BB00E5DA99 /* SwiftUIView.swift */; };
 		031C987D2417C05B00E5DA99 /* degreesRadians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031C987C2417C05B00E5DA99 /* degreesRadians.swift */; };
+		033B6B05241C872400ED684A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 037D7015241C859900389B75 /* Assets.xcassets */; };
+		034ADA96241C5FB300FDB42B /* Existence-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 034ADA95241C5EE600FDB42B /* Existence-Light.otf */; };
 		03FA993D240FCB2400B96E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA993C240FCB2400B96E5E /* AppDelegate.swift */; };
 		03FA993F240FCB2400B96E5E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 03FA993E240FCB2400B96E5E /* GameScene.sks */; };
 		03FA9941240FCB2400B96E5E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 03FA9940240FCB2400B96E5E /* Actions.sks */; };
 		03FA9943240FCB2400B96E5E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA9942240FCB2400B96E5E /* GameScene.swift */; };
 		03FA9945240FCB2400B96E5E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA9944240FCB2400B96E5E /* GameViewController.swift */; };
 		03FA9948240FCB2400B96E5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03FA9946240FCB2400B96E5E /* Main.storyboard */; };
-		03FA994A240FCB2800B96E5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03FA9949240FCB2800B96E5E /* Assets.xcassets */; };
 		03FA994D240FCB2800B96E5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03FA994B240FCB2800B96E5E /* LaunchScreen.storyboard */; };
 		03FA9955240FCF8400B96E5E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA9954240FCF8400B96E5E /* Player.swift */; };
 		03FA99572411405A00B96E5E /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA99562411405A00B96E5E /* Tile.swift */; };
@@ -28,14 +29,15 @@
 /* Begin PBXFileReference section */
 		031C987A241674BB00E5DA99 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		031C987C2417C05B00E5DA99 /* degreesRadians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = degreesRadians.swift; sourceTree = "<group>"; };
-		03FA9939240FCB2400B96E5E /* nano4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nano4.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		034ADA95241C5EE600FDB42B /* Existence-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Existence-Light.otf"; sourceTree = "<group>"; };
+		037D7015241C859900389B75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		03FA9939240FCB2400B96E5E /* Monster Climb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Monster Climb.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03FA993C240FCB2400B96E5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03FA993E240FCB2400B96E5E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		03FA9940240FCB2400B96E5E /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		03FA9942240FCB2400B96E5E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		03FA9944240FCB2400B96E5E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		03FA9947240FCB2400B96E5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		03FA9949240FCB2800B96E5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03FA994C240FCB2800B96E5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03FA994E240FCB2800B96E5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03FA9954240FCF8400B96E5E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -68,7 +70,7 @@
 		03FA993A240FCB2400B96E5E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				03FA9939240FCB2400B96E5E /* nano4.app */,
+				03FA9939240FCB2400B96E5E /* Monster Climb.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,13 +78,13 @@
 		03FA993B240FCB2400B96E5E /* nano4 */ = {
 			isa = PBXGroup;
 			children = (
+				034ADA95241C5EE600FDB42B /* Existence-Light.otf */,
 				03FA993C240FCB2400B96E5E /* AppDelegate.swift */,
 				03FA993E240FCB2400B96E5E /* GameScene.sks */,
 				03FA9940240FCB2400B96E5E /* Actions.sks */,
 				03FA9942240FCB2400B96E5E /* GameScene.swift */,
 				03FA9944240FCB2400B96E5E /* GameViewController.swift */,
 				03FA9946240FCB2400B96E5E /* Main.storyboard */,
-				03FA9949240FCB2800B96E5E /* Assets.xcassets */,
 				03FA994B240FCB2800B96E5E /* LaunchScreen.storyboard */,
 				03FA994E240FCB2800B96E5E /* Info.plist */,
 				03FA9954240FCF8400B96E5E /* Player.swift */,
@@ -91,6 +93,7 @@
 				03FA995E2414666D00B96E5E /* Lava.swift */,
 				03FA99602415668600B96E5E /* Enemy.swift */,
 				031C987A241674BB00E5DA99 /* SwiftUIView.swift */,
+				037D7015241C859900389B75 /* Assets.xcassets */,
 			);
 			path = nano4;
 			sourceTree = "<group>";
@@ -122,7 +125,7 @@
 			);
 			name = nano4;
 			productName = nano4;
-			productReference = 03FA9939240FCB2400B96E5E /* nano4.app */;
+			productReference = 03FA9939240FCB2400B96E5E /* Monster Climb.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -163,9 +166,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				033B6B05241C872400ED684A /* Assets.xcassets in Resources */,
 				03FA9948240FCB2400B96E5E /* Main.storyboard in Resources */,
+				034ADA96241C5FB300FDB42B /* Existence-Light.otf in Resources */,
 				03FA993F240FCB2400B96E5E /* GameScene.sks in Resources */,
-				03FA994A240FCB2800B96E5E /* Assets.xcassets in Resources */,
 				03FA994D240FCB2800B96E5E /* LaunchScreen.storyboard in Resources */,
 				03FA9941240FCB2400B96E5E /* Actions.sks in Resources */,
 			);
@@ -339,8 +343,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nagare.nano4;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nagare.monsterClimb;
+				PRODUCT_NAME = "Monster Climb";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -357,8 +361,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nagare.nano4;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nagare.monsterClimb;
+				PRODUCT_NAME = "Monster Climb";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

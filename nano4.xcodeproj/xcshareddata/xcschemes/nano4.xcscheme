@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "03FA9938240FCB2400B96E5E"
-               BuildableName = "nano4.app"
+               BuildableName = "Monster Climb.app"
                BlueprintName = "nano4"
                ReferencedContainer = "container:nano4.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "03FA9938240FCB2400B96E5E"
-            BuildableName = "nano4.app"
+            BuildableName = "Monster Climb.app"
             BlueprintName = "nano4"
             ReferencedContainer = "container:nano4.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "03FA9938240FCB2400B96E5E"
-            BuildableName = "nano4.app"
+            BuildableName = "Monster Climb.app"
             BlueprintName = "nano4"
             ReferencedContainer = "container:nano4.xcodeproj">
          </BuildableReference>
