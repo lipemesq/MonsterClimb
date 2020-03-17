@@ -8,7 +8,11 @@
 
 import SpriteKit
 
-class Foothold {
+class Foothold: Equatable {
+    
+    static func == (lhs: Foothold, rhs: Foothold) -> Bool {
+        return lhs.node == rhs.node
+    }
     
     enum FaceDirection {
         case right
@@ -24,44 +28,55 @@ class Foothold {
     var faceTo : FaceDirection
     var material : Material
     
-    var hold : SKSpriteNode
-    var sprite : SKSpriteNode
+    var node : SKSpriteNode
     
-    init(faceTo: FaceDirection, material: Material, size: CGSize, holdNode: SKSpriteNode) {
+    var position : CGPoint {
+        get {
+            return node.parent!.convert(node.position, to: node.scene!)
+        }
+    }
+    
+    var devoured = false
+    
+    init(faceTo: FaceDirection, material: Material, size: CGSize, node: SKSpriteNode) {
         self.faceTo = faceTo
         self.material = material
         
-        var texture : SKTexture
-        switch self.material {
-            
-            case .diamond:
-                switch self.faceTo {
-                    case .left:
-                        texture = SKTexture(imageNamed: "diamondLeft")
-                    case .right:
-                        texture = SKTexture(imageNamed: "diamondRight")
-                    case .up:
-                        texture = SKTexture(imageNamed: "diamondUp")
-            }
-            
-            case .gold:
-                switch self.faceTo {
-                    case .left:
-                        texture = SKTexture(imageNamed: "goldLeft")
-                    case .right:
-                        texture = SKTexture(imageNamed: "goldRight")
-                    case .up:
-                        texture = SKTexture(imageNamed: "goldUp")
-            }
-            
-        }
-        
-        self.hold = holdNode
-        self.sprite = SKSpriteNode(texture: texture, size: size)
-        
-        self.hold.addChild(sprite)
-        sprite.position = .zero
+        self.node = node
     }
     
+    func devour() {
+        print("trying to devour \(node.name!)")
+        
+        let sprite = (node.children.first as! SKSpriteNode)
+        let actualSize = sprite.size
+        
+        if faceTo == .left {
+            print("face turned to left")
+            devoured = true
+            if material == .gold {
+                print("made of gold")
+                sprite.texture = SKTexture(imageNamed: "ouroEsqD")
+            }
+            else if material == .diamond {
+                print("made of diamond")
+                sprite.texture = SKTexture(imageNamed: "dimaEsqD")
+            }
+            sprite.size = (sprite.texture?.size())!
+            sprite.position = CGPoint(x: 8, y: 0)
+        }
+        else if faceTo == .right {
+            devoured = true
+            if material == .gold {
+                
+            }
+            else {
+          
+            }
+        }
+        
+        sprite.size = CGSize(width: (actualSize.height/sprite.size.height) * sprite.size.width, height: actualSize.height)
+        
+    }
     
 }

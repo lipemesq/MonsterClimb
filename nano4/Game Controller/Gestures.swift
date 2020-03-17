@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-
+let DEBUG = false
 // ******************************************
 // MARK: - GESTURES RECOGNIZERS
 
@@ -25,12 +25,12 @@ extension GameScene {
             // TODO: - Marker point
             //addChild(touchPointMarker)
             
-            var nextFoothold : CGPoint?
-            for (i, sprite) in spritesOfNearFootholds.enumerated() {
-                let foothold = nearFootholds[i]
-                if foothold != actualFoothold {
-                    if self.nodes(at: pos).contains(sprite) {
-                        let distance = player.node.position.distance(to: foothold)
+            var nextFoothold : Foothold?
+            for foothold in nearFootholds {
+                let node = foothold.node
+                if foothold != actualFoothold && !foothold.devoured {
+                    if self.nodes(at: pos).contains(node) {
+                        let distance = self.player.node.position.distance(to: foothold.position)
                         if distance < maxJumpDistance {
                             nextFoothold = foothold
                         }
@@ -38,11 +38,16 @@ extension GameScene {
                 }
             }
             
-            if pos.x > player.node.position.x {
+            if pos.x > player.node.position.x && (actualFoothold?.faceTo != nextFoothold?.faceTo) {
                 playerRotateRight()
             }
-            else {
+            else if actualFoothold?.faceTo != nextFoothold?.faceTo {
                 playerRotateLeft()
+            }
+            
+            actualFoothold?.devour()
+            if actualFoothold?.devoured ?? false {
+                pontos += 1
             }
             
             if nextFoothold != nil {
@@ -51,26 +56,29 @@ extension GameScene {
                     let generator = UISelectionFeedbackGenerator()
                     generator.selectionChanged()
                     
-                    playerJump(to: nextFoothold!, completion: {
+                    playerJump(to: nextFoothold!.position, completion: {
                         self.player.changeStatus(to: .idle)
                         self.tapp = true
                         
-                        for (i, foothold) in self.nearFootholds.enumerated() {
-                            let distance = self.player.node.position.distance(to: foothold)
-                            if self.spritesOfNearFootholds[i].children.count > 0 {
-                                //  (self.spritesOfNearFootholds[i].children.first as! SKLabelNode).text = "\(distance)"
-                            }
-                            else {
-                                //                            let lbl = SKLabelNode(text: "\(distance)")
-                                //                            lbl.fontName = UIFont.boldSystemFont(ofSize: 18).fontName
-                                //                            self.spritesOfNearFootholds[i].addChild(lbl)
-                            }
-                            
-                            if distance < self.maxJumpDistance {
-                                // self.spritesOfNearFootholds[self.nearFootholds.firstIndex(of: foothold)!].color = .blue
-                            }
-                            else {
-                                //self.spritesOfNearFootholds[self.nearFootholds.firstIndex(of: foothold)!].color = .orange
+                        if DEBUG {
+                            for foothold in self.nearFootholds {
+                                let distance = self.player.node.position.distance(to: foothold.position)
+                                
+                                if foothold.node.children.count > 1 {
+                                    (foothold.node.children.last as! SKLabelNode).text = "\(distance)"
+                                }
+                                else {
+                                    let lbl = SKLabelNode(text: "\(distance)")
+                                    lbl.fontName = UIFont.boldSystemFont(ofSize: 18).fontName
+                                    foothold.node.addChild(lbl)
+                                }
+                                
+                                if distance < self.maxJumpDistance {
+                                    foothold.node.color = .blue
+                                }
+                                else {
+                                    foothold.node.color = .orange
+                                }
                             }
                         }
                     })

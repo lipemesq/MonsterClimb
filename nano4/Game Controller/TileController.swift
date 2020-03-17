@@ -31,11 +31,11 @@ extension GameScene {
         
         // get the footholds
         tile.loadFootholds()
-        spritesOfNearFootholds.append(contentsOf: tile.footholds)
-        nearFootholds.append(contentsOf: tile.footholds.map({ (f) -> CGPoint in
-            let point =  tile.convert(f.position, to: scene!)
-            return point
-        }))
+        nearFootholds.append(contentsOf: tile.footholds1)
+//        nearFootholds.append(contentsOf: tile.footholds.map({ (f) -> CGPoint in
+//            let point =  tile.convert(f.position, to: scene!)
+//            return point
+//        }))
         
         // get the enemies in the tile
         tile.loadEnemies()
@@ -92,7 +92,6 @@ extension GameScene {
         if firstTile.position.y < lava.node.position.y {
             // Remove os footholds da lista
             nearFootholds.removeFirst(firstTile.footholds.count)
-            spritesOfNearFootholds.removeFirst(firstTile.footholds.count)
             
             // Remove o tile
             firstTile.removeFromParent()

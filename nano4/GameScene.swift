@@ -66,9 +66,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let lavaAcceleration : CGFloat = 0.001
     
     // Próximos pontos de apoio
-    var nearFootholds : [CGPoint] = []
-    var spritesOfNearFootholds : [SKSpriteNode] = []
-    var actualFoothold : CGPoint?
+    var nearFootholds : [Foothold] = []
+    var actualFoothold : Foothold?
 
     var titleGame : SKSpriteNode!
     
@@ -164,11 +163,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             yoffset += tile.size.height
             
             tile.loadFootholds()
-            spritesOfNearFootholds.append(contentsOf: tile.footholds)
-            nearFootholds.append(contentsOf: tile.footholds.map({ (f) -> CGPoint in
-                let point =  tile.convert(f.position, to: scene!)
-                return point
-            }))
+            nearFootholds.append(contentsOf: tile.footholds1)
+            //(contentsOf: tile.footholds.map({ (f) -> CGPoint in
+//                let point =  tile.convert(f.position, to: scene!)
+//                return point
+//            }))
             
             tile.loadEnemies()
             for enemy in tile.enemies {
@@ -286,7 +285,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Sobe a lava
         if (scene?.physicsWorld.speed)! > CGFloat(0) {
-            pontos = Int(currentTime - startTime)
+            //pontos = Int(currentTime - startTime)
             (pointsNode.children[0] as! SKLabelNode).text = String(pontos)
             
             if lavaSpeed < maxLavaSpeed {

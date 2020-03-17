@@ -11,6 +11,7 @@ import SpriteKit
 class Tile : SKSpriteNode {
     
     var footholds : [SKSpriteNode] = []
+    var footholds1 : [Foothold] = []
     
     var enemies : [Enemy] = []
     
@@ -21,11 +22,30 @@ class Tile : SKSpriteNode {
     func loadFootholds() {
         for c in self.children {
             if c.name!.contains("foothold") {
-                if let data = c.userData {
-                    if (data["rarity"] as? Int) == 50 {
-                       // print("achou raridade 50")
-                    }
+                (c as! SKSpriteNode).color = .clear
+                
+                var direction : Foothold.FaceDirection
+                var material : Foothold.Material
+
+                let name = c.name!
+                if name.contains("right") {
+                    direction = .right
                 }
+                else if name.contains("left") {
+                    direction = .left
+                }
+                else {
+                    direction = .up
+                }
+                            
+                if name.contains("diamond") {
+                    material = .diamond
+                }
+                else {
+                    material = .gold
+                }
+                    
+                footholds1.append(Foothold(faceTo: direction, material: material, size: (c as! SKSpriteNode).size * 0.9, node: (c as! SKSpriteNode)))
                 footholds.append(c as! SKSpriteNode)
             }
         }

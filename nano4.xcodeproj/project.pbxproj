@@ -20,6 +20,7 @@
 		0321AE83241FB63E00FD964B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0321AE82241FB63D00FD964B /* GameKit.framework */; };
 		0321AE89241FB77D00FD964B /* GameCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE88241FB77D00FD964B /* GameCenterHelper.swift */; };
 		0321AE8B24206B8000FD964B /* Foothold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE8A24206B7E00FD964B /* Foothold.swift */; };
+		0321AE8D242106AB00FD964B /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE8C242106AB00FD964B /* CGSize.swift */; };
 		033B6B05241C872400ED684A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 037D7015241C859900389B75 /* Assets.xcassets */; };
 		034ADA96241C5FB300FDB42B /* Existence-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 034ADA95241C5EE600FDB42B /* Existence-Light.otf */; };
 		03FA993D240FCB2400B96E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA993C240FCB2400B96E5E /* AppDelegate.swift */; };
@@ -51,6 +52,7 @@
 		0321AE82241FB63D00FD964B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		0321AE88241FB77D00FD964B /* GameCenterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterHelper.swift; sourceTree = "<group>"; };
 		0321AE8A24206B7E00FD964B /* Foothold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foothold.swift; sourceTree = "<group>"; };
+		0321AE8C242106AB00FD964B /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
 		034ADA95241C5EE600FDB42B /* Existence-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Existence-Light.otf"; sourceTree = "<group>"; };
 		037D7015241C859900389B75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03FA9939240FCB2400B96E5E /* Monster Climb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Monster Climb.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +204,7 @@
 				03FA995A241455C100B96E5E /* SpriteNode.swift */,
 				031C987C2417C05B00E5DA99 /* degreesRadians.swift */,
 				0321AE7D241FA5CD00FD964B /* Button.swift */,
+				0321AE8C242106AB00FD964B /* CGSize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0321AE8D242106AB00FD964B /* CGSize.swift in Sources */,
 				0321AE7A241F217100FD964B /* Camera.swift in Sources */,
 				03FA9943240FCB2400B96E5E /* GameScene.swift in Sources */,
 				03FA995F2414666D00B96E5E /* Lava.swift in Sources */,
