@@ -34,11 +34,9 @@ class Tile : SKSpriteNode {
     func loadEnemies() {
         for c in self.children {
             if c.name!.contains("enemy") {
-                //print("TEM INIMIGO")
                 let data = c.userData!
                 switch data["type"] as! String {
                     case "circular":
-                       // print("É CIRCULAR")
                         let circularEnemy = CircularMovementEnemy(scene: self.scene as! GameScene, node: c as! SKSpriteNode, center: convert(c.position, to: scene!), radius: data["radius"] as! CGFloat, initialRotation: data["initialRotation"] as! CGFloat, speed: data["speed"] as! CGFloat)
                         enemies.append(circularEnemy)
                         break
@@ -57,9 +55,6 @@ class Tile : SKSpriteNode {
                     
                     default:
                         break
-                }
-                if (data["rarity"] as? Int) == 50 {
-                    //print("achou raridade 50")
                 }
                 footholds.append(c as! SKSpriteNode)
             }

@@ -7,8 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		031C987B241674BB00E5DA99 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031C987A241674BB00E5DA99 /* SwiftUIView.swift */; };
 		031C987D2417C05B00E5DA99 /* degreesRadians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031C987C2417C05B00E5DA99 /* degreesRadians.swift */; };
+		0321AE70241F027F00FD964B /* PlayerLegs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE6F241F027F00FD964B /* PlayerLegs.swift */; };
+		0321AE72241F09B400FD964B /* Collisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE71241F09B400FD964B /* Collisions.swift */; };
+		0321AE74241F0A3200FD964B /* ResetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE73241F0A3200FD964B /* ResetGame.swift */; };
+		0321AE76241F0AB000FD964B /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE75241F0AB000FD964B /* Gestures.swift */; };
+		0321AE78241F1DD400FD964B /* PlayerMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE77241F1DD400FD964B /* PlayerMovement.swift */; };
+		0321AE7A241F217100FD964B /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE79241F217100FD964B /* Camera.swift */; };
+		0321AE7C241F21C100FD964B /* TileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE7B241F21C100FD964B /* TileController.swift */; };
+		0321AE7E241FA5CD00FD964B /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE7D241FA5CD00FD964B /* Button.swift */; };
+		0321AE80241FA6AB00FD964B /* ButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE7F241FA6AB00FD964B /* ButtonDelegate.swift */; };
+		0321AE83241FB63E00FD964B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0321AE82241FB63D00FD964B /* GameKit.framework */; };
+		0321AE89241FB77D00FD964B /* GameCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE88241FB77D00FD964B /* GameCenterHelper.swift */; };
+		0321AE8B24206B8000FD964B /* Foothold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE8A24206B7E00FD964B /* Foothold.swift */; };
 		033B6B05241C872400ED684A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 037D7015241C859900389B75 /* Assets.xcassets */; };
 		034ADA96241C5FB300FDB42B /* Existence-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 034ADA95241C5EE600FDB42B /* Existence-Light.otf */; };
 		03FA993D240FCB2400B96E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA993C240FCB2400B96E5E /* AppDelegate.swift */; };
@@ -27,8 +38,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		031C987A241674BB00E5DA99 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		031C987C2417C05B00E5DA99 /* degreesRadians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = degreesRadians.swift; sourceTree = "<group>"; };
+		0321AE6F241F027F00FD964B /* PlayerLegs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLegs.swift; sourceTree = "<group>"; };
+		0321AE71241F09B400FD964B /* Collisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collisions.swift; sourceTree = "<group>"; };
+		0321AE73241F0A3200FD964B /* ResetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetGame.swift; sourceTree = "<group>"; };
+		0321AE75241F0AB000FD964B /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
+		0321AE77241F1DD400FD964B /* PlayerMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMovement.swift; sourceTree = "<group>"; };
+		0321AE79241F217100FD964B /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		0321AE7B241F21C100FD964B /* TileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileController.swift; sourceTree = "<group>"; };
+		0321AE7D241FA5CD00FD964B /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		0321AE7F241FA6AB00FD964B /* ButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDelegate.swift; sourceTree = "<group>"; };
+		0321AE82241FB63D00FD964B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		0321AE88241FB77D00FD964B /* GameCenterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterHelper.swift; sourceTree = "<group>"; };
+		0321AE8A24206B7E00FD964B /* Foothold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foothold.swift; sourceTree = "<group>"; };
 		034ADA95241C5EE600FDB42B /* Existence-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Existence-Light.otf"; sourceTree = "<group>"; };
 		037D7015241C859900389B75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03FA9939240FCB2400B96E5E /* Monster Climb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Monster Climb.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,17 +75,91 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0321AE83241FB63E00FD964B /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0321AE68241F017C00FD964B /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				03FA9954240FCF8400B96E5E /* Player.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		0321AE69241F01A000FD964B /* Enemies */ = {
+			isa = PBXGroup;
+			children = (
+				03FA99602415668600B96E5E /* Enemy.swift */,
+			);
+			path = Enemies;
+			sourceTree = "<group>";
+		};
+		0321AE6A241F01B400FD964B /* Lava */ = {
+			isa = PBXGroup;
+			children = (
+				03FA995E2414666D00B96E5E /* Lava.swift */,
+			);
+			path = Lava;
+			sourceTree = "<group>";
+		};
+		0321AE6B241F01D200FD964B /* Tiles */ = {
+			isa = PBXGroup;
+			children = (
+				03FA99562411405A00B96E5E /* Tile.swift */,
+				0321AE8A24206B7E00FD964B /* Foothold.swift */,
+			);
+			path = Tiles;
+			sourceTree = "<group>";
+		};
+		0321AE6C241F01EC00FD964B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0321AE6D241F01F900FD964B /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0321AE6D241F01F900FD964B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				034ADA95241C5EE600FDB42B /* Existence-Light.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		0321AE6E241F026400FD964B /* Game Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0321AE6F241F027F00FD964B /* PlayerLegs.swift */,
+				0321AE71241F09B400FD964B /* Collisions.swift */,
+				0321AE73241F0A3200FD964B /* ResetGame.swift */,
+				0321AE75241F0AB000FD964B /* Gestures.swift */,
+				0321AE77241F1DD400FD964B /* PlayerMovement.swift */,
+				0321AE79241F217100FD964B /* Camera.swift */,
+				0321AE7B241F21C100FD964B /* TileController.swift */,
+				0321AE7F241FA6AB00FD964B /* ButtonDelegate.swift */,
+			);
+			path = "Game Controller";
+			sourceTree = "<group>";
+		};
+		0321AE81241FB63D00FD964B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0321AE82241FB63D00FD964B /* GameKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		03FA9930240FCB2400B96E5E = {
 			isa = PBXGroup;
 			children = (
 				03FA993B240FCB2400B96E5E /* nano4 */,
 				03FA993A240FCB2400B96E5E /* Products */,
+				0321AE81241FB63D00FD964B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,7 +174,9 @@
 		03FA993B240FCB2400B96E5E /* nano4 */ = {
 			isa = PBXGroup;
 			children = (
-				034ADA95241C5EE600FDB42B /* Existence-Light.otf */,
+				0321AE6E241F026400FD964B /* Game Controller */,
+				0321AE68241F017C00FD964B /* Player */,
+				0321AE6C241F01EC00FD964B /* Resources */,
 				03FA993C240FCB2400B96E5E /* AppDelegate.swift */,
 				03FA993E240FCB2400B96E5E /* GameScene.sks */,
 				03FA9940240FCB2400B96E5E /* Actions.sks */,
@@ -87,25 +185,25 @@
 				03FA9946240FCB2400B96E5E /* Main.storyboard */,
 				03FA994B240FCB2800B96E5E /* LaunchScreen.storyboard */,
 				03FA994E240FCB2800B96E5E /* Info.plist */,
-				03FA9954240FCF8400B96E5E /* Player.swift */,
-				03FA99562411405A00B96E5E /* Tile.swift */,
-				03FA995D2414562900B96E5E /* extensions */,
-				03FA995E2414666D00B96E5E /* Lava.swift */,
-				03FA99602415668600B96E5E /* Enemy.swift */,
-				031C987A241674BB00E5DA99 /* SwiftUIView.swift */,
+				0321AE88241FB77D00FD964B /* GameCenterHelper.swift */,
+				0321AE6B241F01D200FD964B /* Tiles */,
+				03FA995D2414562900B96E5E /* Extensions */,
+				0321AE6A241F01B400FD964B /* Lava */,
+				0321AE69241F01A000FD964B /* Enemies */,
 				037D7015241C859900389B75 /* Assets.xcassets */,
 			);
 			path = nano4;
 			sourceTree = "<group>";
 		};
-		03FA995D2414562900B96E5E /* extensions */ = {
+		03FA995D2414562900B96E5E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				03FA99582414555400B96E5E /* CGPoint.swift */,
 				03FA995A241455C100B96E5E /* SpriteNode.swift */,
 				031C987C2417C05B00E5DA99 /* degreesRadians.swift */,
+				0321AE7D241FA5CD00FD964B /* Button.swift */,
 			);
-			path = extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,16 +280,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0321AE7A241F217100FD964B /* Camera.swift in Sources */,
 				03FA9943240FCB2400B96E5E /* GameScene.swift in Sources */,
 				03FA995F2414666D00B96E5E /* Lava.swift in Sources */,
 				03FA9945240FCB2400B96E5E /* GameViewController.swift in Sources */,
+				0321AE89241FB77D00FD964B /* GameCenterHelper.swift in Sources */,
 				03FA99572411405A00B96E5E /* Tile.swift in Sources */,
-				031C987B241674BB00E5DA99 /* SwiftUIView.swift in Sources */,
+				0321AE70241F027F00FD964B /* PlayerLegs.swift in Sources */,
+				0321AE76241F0AB000FD964B /* Gestures.swift in Sources */,
+				0321AE7E241FA5CD00FD964B /* Button.swift in Sources */,
 				031C987D2417C05B00E5DA99 /* degreesRadians.swift in Sources */,
 				03FA993D240FCB2400B96E5E /* AppDelegate.swift in Sources */,
+				0321AE74241F0A3200FD964B /* ResetGame.swift in Sources */,
+				0321AE78241F1DD400FD964B /* PlayerMovement.swift in Sources */,
 				03FA99612415668600B96E5E /* Enemy.swift in Sources */,
 				03FA995B241455C100B96E5E /* SpriteNode.swift in Sources */,
 				03FA9955240FCF8400B96E5E /* Player.swift in Sources */,
+				0321AE80241FA6AB00FD964B /* ButtonDelegate.swift in Sources */,
+				0321AE72241F09B400FD964B /* Collisions.swift in Sources */,
+				0321AE8B24206B8000FD964B /* Foothold.swift in Sources */,
+				0321AE7C241F21C100FD964B /* TileController.swift in Sources */,
 				03FA99592414555500B96E5E /* CGPoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

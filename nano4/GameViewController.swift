@@ -15,6 +15,8 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        GameCenterHelper.helper.viewController = self
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -30,6 +32,13 @@ class GameViewController: UIViewController {
             view.showsFPS = true
             view.showsNodeCount = true
         }
+    }
+    
+    // showLeaderboard
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //GameCenterHelper.helper.showLeaderboard(presentingVC: GameCenterHelper.helper.viewController!)
     }
 
     override var shouldAutorotate: Bool {

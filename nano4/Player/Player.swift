@@ -27,9 +27,15 @@ class Player {
     var rightKnee  : SKPhysicsJointPin!
     var leftKnee  : SKPhysicsJointPin!
     
+    let legsLowerAngleLimit : CGFloat = -90
+    let legsUpperAngleLimit : CGFloat = 90
+    
+    let kneesLowerAngleLimit : CGFloat = -60
+    let kneesUpperAngleLimit : CGFloat = 0
+    
     init(scene: GameScene) {
         self.scene = scene
-        self.node = scene.childNode(withName: "player") as! SKSpriteNode //SKSpriteNode(color: .green, size: .init(width: 80, height: 130))
+        self.node = scene.childNode(withName: "player") as! SKSpriteNode
         self.node.position = CGPoint(x: 100, y: -300)
         self.node.zPosition = 10
 
@@ -48,6 +54,7 @@ class Player {
         
         leftFoot = SKSpriteNode(texture: SKTexture(imageNamed: "peDireito"), size: .init(width: feetWidth, height: 32*feetWidth/13))
         leftFoot.anchorPoint = .init(x: 0.1, y: 0.9)
+        
         
         rightLeg.zPosition = 10
         rightFoot.zPosition = 10
