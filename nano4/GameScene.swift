@@ -50,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Player
     var player : Player!
     let maxJumpDistance : CGFloat = 700
+    var playerCollider : SKSpriteNode!
     
     // Camera
     var cam : SKCameraNode = SKCameraNode()
@@ -87,7 +88,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Cria o player
         player = Player(scene: self)
         player.node.turnPhysicsOff(offset: CGPoint(x: -33, y: 0))
-        //addChild(player.node)
         player.node.physicsBody?.isDynamic = false
         
         // Pausa a fisica do jogo
@@ -107,10 +107,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Máscara de colisão do player
-        player.node.physicsBody!.categoryBitMask = 2
-        player.node.physicsBody!.contactTestBitMask = 2
-        player.node.physicsBody?.collisionBitMask = 5
-        player.node.physicsBody?.usesPreciseCollisionDetection = true
+        playerCollider = (player.node.childNode(withName: "playerCollider") as! SKSpriteNode)
+        playerCollider.turnPhysicsOff()
+        
+        player.node.physicsBody!.categoryBitMask = 0
+        player.node.physicsBody!.contactTestBitMask = 0
+        player.node.physicsBody?.collisionBitMask = 0
+        
+        playerCollider.physicsBody!.categoryBitMask = 2
+        playerCollider.physicsBody!.contactTestBitMask = 2
+        playerCollider.physicsBody?.collisionBitMask = 5
+        playerCollider.physicsBody?.usesPreciseCollisionDetection = true
+        
+        let joint = SKPhysicsJointFixed.joint(
+            withBodyA: player.node.physicsBody!,
+            bodyB: playerCollider.physicsBody!,
+            anchor: player.node.position)
+        scene!.physicsWorld.add(joint)
         
         // Inicia a camera
         addChild(camNode)
@@ -183,7 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lava.node.turnPhysicsOff()
         lava.node.physicsBody?.isResting = true
         lava.node.physicsBody!.categoryBitMask = 1
-        lava.node.physicsBody!.contactTestBitMask = player.node.physicsBody!.categoryBitMask
+        lava.node.physicsBody!.contactTestBitMask = playerCollider.physicsBody!.categoryBitMask
         lava.node.physicsBody!.collisionBitMask = 0
         
         
@@ -231,7 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.turnPhysicsOff()
         enemy.physicsBody?.categoryBitMask = 4
         enemy.physicsBody?.collisionBitMask = 0//player.node.physicsBody!.categoryBitMask
-        enemy.physicsBody!.contactTestBitMask = player.node.physicsBody!.categoryBitMask
+        enemy.physicsBody!.contactTestBitMask = playerCollider.physicsBody!.categoryBitMask
         enemy.physicsBody?.restitution = 0.6
     }
     
