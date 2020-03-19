@@ -16,14 +16,23 @@ extension GameScene {
     
     // Tap
     @objc func tapRecognizer(tap: UITapGestureRecognizer) {
+        let pos = self.convertPoint(fromView: tap.location(in: view))
+        
         if scene!.physicsWorld.speed > 0 && !reseting {
-            let pos = self.convertPoint(fromView: tap.location(in: view))
             
             let touchPointMarker = SKSpriteNode(color: .magenta, size: CGSize(width: 10, height: 10))
             touchPointMarker.position = pos
             
-            // TODO: - Marker point
-            //addChild(touchPointMarker)
+            // - Marker point
+            tapIndicator.position = pos
+            tapIndicator.run(SKAction.group([
+                SKAction.init(named: "Pulse")!,
+                SKAction.sequence([
+                    SKAction.fadeIn(withDuration: 0.3),
+                    SKAction.wait(forDuration: 0.5),
+                    SKAction.fadeOut(withDuration: 0.2)
+                ])
+            ]))
             
             var nextFoothold : Foothold?
             for foothold in nearFootholds {
@@ -38,11 +47,13 @@ extension GameScene {
                 }
             }
             
-            if pos.x > player.node.position.x && (actualFoothold?.faceTo != nextFoothold?.faceTo) {
-                playerRotateRight()
-            }
-            else if actualFoothold?.faceTo != nextFoothold?.faceTo {
-                playerRotateLeft()
+            if actualFoothold?.faceTo == .up || (actualFoothold?.faceTo != nextFoothold?.faceTo) {
+                if pos.x > player.node.position.x {
+                    playerRotateRight()
+                }
+                else {
+                    playerRotateLeft()
+                }
             }
             
             actualFoothold?.devour()
@@ -84,8 +95,8 @@ extension GameScene {
                     })
                 }
             }
-            else {
-                if player.status == .idle {
+            else if !reseting && canCollide {
+                if player.status == .idle && !reseting {
                     let generator = UINotificationFeedbackGenerator()
                     generator.notificationOccurred(.warning)
                     
@@ -93,6 +104,8 @@ extension GameScene {
                     
                     playerJump(to: pos, completion: {
                         self.tapp = true
+                        print("INIT KILL BY TAP")
+
                         self.killPlayer()
                     })
                 }
@@ -100,11 +113,28 @@ extension GameScene {
             
         }
         else {
-            if canDoInitialTap && !reseting{
+            if canDoInitialTap && !reseting && !self.nodes(at: pos).contains(leaderboard) {
+                leaderboard.isHidden = true
+                
                 if boxTapToStart.parent != nil {
                     boxTapToStart.removeFromParent()
-                    titleGame.removeFromParent()
+                    titleMonster.run(SKAction.fadeOut(withDuration: 0.8)) {
+                        self.titleMonster.removeFromParent()
+                    }
+                    
+                    titleClimb.run(SKAction.fadeOut(withDuration: 0.8)) {
+                        self.titleClimb.removeFromParent()
+                    }
+                    
                 }
+                
+                // deixa os nodes visiveis
+                for foothold in nearFootholds.sorted(by: { (u, p) -> Bool in
+                    u.position.y < p.position.y
+                }).dropFirst(3) {
+                    foothold.node.alpha = 1
+                }
+                
                 scene!.isPaused = false
                 scene?.physicsWorld.speed = 1
             }

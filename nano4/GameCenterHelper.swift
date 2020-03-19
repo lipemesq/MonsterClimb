@@ -47,7 +47,7 @@ final class GameCenterHelper: NSObject, GKGameCenterControllerDelegate {
     var viewController: UIViewController?
     
     private var localPlayer = GKLocalPlayer.local
-    private var leaderboardID = "grp.highscoreRun"
+    private var leaderboardID = "com.highscore.cm"
     private var scores: [(playerName: String, score: Int)]?
     private var leaderboard: GKLeaderboard?
     
@@ -84,6 +84,11 @@ final class GameCenterHelper: NSObject, GKGameCenterControllerDelegate {
         })
     }
     
+    func getUserHighscore() -> Int{
+        let score = GKScore(leaderboardIdentifier: leaderboardID)
+        return Int(score.value)
+    }
+    
     func showLeaderboard(presentingVC: UIViewController) {
         let gameCenterViewController = GKGameCenterViewController()
         gameCenterViewController.gameCenterDelegate = self
@@ -98,4 +103,10 @@ final class GameCenterHelper: NSObject, GKGameCenterControllerDelegate {
 extension Notification.Name {
   static let presentGame = Notification.Name(rawValue: "presentGame")
   static let authenticationChanged = Notification.Name(rawValue: "authenticationChanged")
+    
+    static let mustReset = Notification.Name(rawValue: "mustResetGame")
+    
+    static let adEndNice = Notification.Name(rawValue: "adEndedOk")
+    
+    static let showAd = Notification.Name(rawValue: "showAd")
 }

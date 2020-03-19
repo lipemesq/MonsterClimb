@@ -11,9 +11,17 @@ import SpriteKit
 extension GameScene: ButtonDelegate {
     
     func buttonClicked(button: Button) {
+        if button.name == "leaderboard" {
+           
+           print("TOCOU VAMO ABRIR")
+            GameCenterHelper.helper.showLeaderboard(presentingVC: GameCenterHelper.helper.viewController!)
+            return
+        }
+        
         print("botao tapped")
         if (button.userData!["function"] as! String) == "revive" {
-            resetGame()
+            showingAd = true
+            NotificationCenter.default.post(name: .showAd, object: nil)
         }
         else if (button.userData!["function"] as! String) == "reset" {
             resetGame()

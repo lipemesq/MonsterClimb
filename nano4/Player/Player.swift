@@ -30,8 +30,8 @@ class Player {
     let legsLowerAngleLimit : CGFloat = -90
     let legsUpperAngleLimit : CGFloat = 90
     
-    let kneesLowerAngleLimit : CGFloat = -60
-    let kneesUpperAngleLimit : CGFloat = 0
+    let kneesMaxAngleLimit : CGFloat = 60
+    let kneesMinAngleLimit : CGFloat = 0
     
     init(scene: GameScene) {
         self.scene = scene

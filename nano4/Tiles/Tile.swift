@@ -25,7 +25,6 @@ class Tile : SKSpriteNode {
                 (c as! SKSpriteNode).color = .clear
                 
                 var direction : Foothold.FaceDirection
-                var material : Foothold.Material
 
                 let name = c.name!
                 if name.contains("right") {
@@ -37,15 +36,8 @@ class Tile : SKSpriteNode {
                 else {
                     direction = .up
                 }
-                            
-                if name.contains("diamond") {
-                    material = .diamond
-                }
-                else {
-                    material = .gold
-                }
                     
-                footholds1.append(Foothold(faceTo: direction, material: material, size: (c as! SKSpriteNode).size * 0.9, node: (c as! SKSpriteNode)))
+                footholds1.append(Foothold(faceTo: direction, size: (c as! SKSpriteNode).size * 0.9, node: (c as! SKSpriteNode)))
                 footholds.append(c as! SKSpriteNode)
             }
         }

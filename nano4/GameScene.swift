@@ -19,10 +19,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lastGameUpdate : TimeInterval = TimeInterval(0)
     var gameUpdateInterval : TimeInterval = 0.175
     var initialTime : TimeInterval!
-    var initalTapDelay = TimeInterval(3)
+    var initalTapDelay = 1
     var firstUpdate = true
     var canDoInitialTap = false
     var tapp = false
+    var showingAd = false
+    
+    
+    var canCollide = true
+    var timeInvencible : Double = 3.0
+    var invencibleTime = 3.0
+    var deltaTime  = 0.0
+    
+    var tapIndicator : SKSpriteNode!
     
     // Morte
     var progress: Double = 0
@@ -32,8 +41,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Reviver
     var reviveMenu : SKSpriteNode!
     var buttonRevive : Button!
-    var pointsBox : SKShapeNode!
     var pointsLabel : SKLabelNode!
+    var highscoreLabel : SKLabelNode!
+    var restartButton : Button!
+    
 
     // Pontos
     var pointsNode : SKSpriteNode!
@@ -58,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var camNode : SKNode = SKNode()
     var lastCameraUpdate : TimeInterval = TimeInterval(0)
     var camUpdateInterval : TimeInterval = 0.2
-    var camMoveVelocity : TimeInterval = 0.3
+    var camMoveVelocity : TimeInterval = 0.1
     
     // Lava
     var lava : Lava!
@@ -70,17 +81,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var nearFootholds : [Foothold] = []
     var actualFoothold : Foothold?
 
-    var titleGame : SKSpriteNode!
+    var titleMonster : SKLabelNode!
+    var titleClimb : SKLabelNode!
+    
+    var leaderboard : Button!
     
     
     // ******************************************
     // MARK: - START
     
-    override func didMove(to view: SKView) {
+    @objc func mustReset() {
+        print("INIT MUSTED")
+        showingAd = false
+        if !reseting {
+            resetGame()
+        }
+    }
+    
+    @objc func endAd() {
+        showingAd = false
+        print("END AD")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         
-        // adiciona o tap controller
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer(tap:)))
-        view.addGestureRecognizer(tap)
+        print("INIT 1")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(mustReset), name: .mustReset, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(revive), name: .adEndNice, object: nil)
         
         // Colisões
         physicsWorld.contactDelegate = self
@@ -119,23 +149,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerCollider.physicsBody?.collisionBitMask = 5
         playerCollider.physicsBody?.usesPreciseCollisionDetection = true
         
-        let joint = SKPhysicsJointFixed.joint(
-            withBodyA: player.node.physicsBody!,
-            bodyB: playerCollider.physicsBody!,
-            anchor: player.node.position)
-        scene!.physicsWorld.add(joint)
-        
+//        let joint = SKPhysicsJointFixed.joint(
+//            withBodyA: player.node.physicsBody!,
+//            bodyB: playerCollider.physicsBody!,
+//            anchor: player.node.position)
+//        scene!.physicsWorld.add(joint)
+//        
         // Inicia a camera
         addChild(camNode)
         camera = cam
-        let background = SKSpriteNode(texture: SKTexture(imageNamed: "fundo"), size: CGSize(width: 750, height: 1334))
+        let background = SKSpriteNode(texture: SKTexture(imageNamed: "background"), size: CGSize(width: 750, height: 1334))
         background.zPosition = -10
         camNode.insertChild(background, at: 0)
         camNode.addChild(camera!)
         
+        tapIndicator = (childNode(withName: "tap") as! SKSpriteNode)
+        tapIndicator.alpha = 0
+        tapIndicator.zRotation = 50
+        
         // titulo
-        titleGame = (scene?.childNode(withName: "title") as! SKSpriteNode)
-        titleGame.zPosition = 22
+        titleMonster = (scene?.childNode(withName: "monster") as! SKLabelNode)
+        titleClimb = (scene?.childNode(withName: "climb") as! SKLabelNode)
+        
+        titleMonster.run(SKAction.group([
+            SKAction.fadeIn(withDuration: 0.5),
+            SKAction.moveTo(x: 110, duration: 1)
+        ]))
+        titleClimb.run(SKAction.group([
+            SKAction.fadeIn(withDuration: 0.5),
+            SKAction.moveTo(x: 10, duration: 1)
+        ]))
         
         // pontos
         pointsNode = (scene?.childNode(withName: "pontos") as! SKSpriteNode)
@@ -178,9 +221,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             tile.loadFootholds()
             nearFootholds.append(contentsOf: tile.footholds1)
             //(contentsOf: tile.footholds.map({ (f) -> CGPoint in
-//                let point =  tile.convert(f.position, to: scene!)
-//                return point
-//            }))
+            //                let point =  tile.convert(f.position, to: scene!)
+            //                return point
+            //            }))
             
             tile.loadEnemies()
             for enemy in tile.enemies {
@@ -188,7 +231,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemy.startMoving()
             }
         }
-        
         
         // Setup Lava
         lava = Lava(scene: self)
@@ -206,44 +248,74 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         reviveMenu.zPosition = 100
         reviveMenu.isUserInteractionEnabled = false
         
-        buttonRevive = (reviveMenu.childNode(withName: "buttonRevive") as! Button)
-        buttonRevive.alpha = 0
+        buttonRevive = (reviveMenu.childNode(withName: "continueButton") as! Button)
         buttonRevive.buttonDelegate = self
         buttonRevive.isUserInteractionEnabled = true
         
-        pointsBox = (reviveMenu.childNode(withName: "caixaPontos") as! SKShapeNode)
-        pointsBox.path = UIBezierPath(roundedRect: CGRect(x: -440/2, y: -300/2, width: 440, height: 300), byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 60, height: 60)).cgPath
-        pointsBox.lineWidth = 6
+        restartButton = (reviveMenu.childNode(withName: "restartButton") as! Button)
+        restartButton.alpha = 0
+        restartButton.buttonDelegate = self
+        restartButton.isUserInteractionEnabled = true
         
-        pointsLabel = (pointsBox.childNode(withName: "points") as! SKLabelNode)
-
+        pointsLabel = ((reviveMenu.childNode(withName: "pontos") as! SKSpriteNode).childNode(withName: "label") as! SKLabelNode)
+        
+        highscoreLabel = (reviveMenu.childNode(withName: "highscore") as! SKLabelNode)
+        
+        
+        leaderboard = (childNode(withName: "leaderboard") as! Button)
+        leaderboard.buttonDelegate = self
+        leaderboard.isUserInteractionEnabled = true
+        
+        leaderboard.move(toParent: camNode)
         
         
         // frase de start
         boxTapToStart = SKShapeNode()
         boxTapToStart.zPosition = 21
-        boxTapToStart.path = UIBezierPath(roundedRect: CGRect(x: -200, y: -40, width: 400, height: 100), byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 40, height: 40)).cgPath
+        boxTapToStart.path = UIBezierPath().cgPath
         boxTapToStart.position = CGPoint(x: 0, y: -100)
         boxTapToStart.fillColor = UIColor.init(named: "escuro")!
         boxTapToStart.strokeColor = UIColor.init(named: "vermelho")!
         boxTapToStart.lineWidth = 16
         addChild(boxTapToStart)
         
-        let tapToStartLabel = SKLabelNode(text: "Tap a foothold to start")
-        tapToStartLabel.fontName = "Existence-Light"
-        tapToStartLabel.fontSize = 34
-        tapToStartLabel.fontColor = .yellow
+        let tapToStartLabel = SKLabelNode(text: "Tap to start")
+        tapToStartLabel.fontName = "Montserrat-Regular"
+        tapToStartLabel.fontSize = 40
+        //        tapToStartLabel.fontColor = .yellow
         tapToStartLabel.position = CGPoint(x: 0, y: 0)
         boxTapToStart.addChild(tapToStartLabel)
+        boxTapToStart.alpha = 0
         boxTapToStart.run(SKAction.repeatForever( SKAction.init(named: "Pulse")!))
+        
+        
+        // deixa os nodes invisiveis
+        for foothold in nearFootholds.sorted(by: { (u, p) -> Bool in
+            u.position.y < p.position.y
+        }).dropFirst(3) {
+            foothold.node.alpha = 0
+        }
+    }
+    
+    override func didMove(to view: SKView) {
+        
+        print("INIT 2")
+
+        // adiciona o tap controller
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer(tap:)))
+        view.addGestureRecognizer(tap)
     }
     var boxTapToStart : SKShapeNode!
     
     func setupEnemy(enemy: SKSpriteNode) {
         // turn off physics and add collision
-        enemy.turnPhysicsOff()
+//        enemy.turnPhysicsOff()
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width/2, center: CGPoint(x: 0, y: 40))
+        enemy.physicsBody!.affectedByGravity = false
+        enemy.physicsBody!.isDynamic = true
+        enemy.physicsBody?.allowsRotation = false
         enemy.physicsBody?.categoryBitMask = 4
-        enemy.physicsBody?.collisionBitMask = 0//player.node.physicsBody!.categoryBitMask
+        enemy.physicsBody?.collisionBitMask = 0
         enemy.physicsBody!.contactTestBitMask = playerCollider.physicsBody!.categoryBitMask
         enemy.physicsBody?.restitution = 0.6
     }
@@ -260,11 +332,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstUpdate {
             firstUpdate = false
             initialTime = currentTime
+            deltaTime = currentTime
         }
         
-        if currentTime > initalTapDelay {
-            canDoInitialTap = true
+        if !canDoInitialTap {
+            if Int(currentTime - initialTime) > initalTapDelay {
+                print("currentTime: \(currentTime), deixou")
+                canDoInitialTap = true
+                self.boxTapToStart.run(SKAction.fadeIn(withDuration: 0.2))
+            }
         }
+        
+        if !canCollide && invencibleTime > 0 {
+            invencibleTime -= (currentTime - deltaTime)
+            if invencibleTime <= 0  {
+                canCollide  = true
+                invencibleTime  = 3
+                initialTime = currentTime
+            }
+        }
+        
+        deltaTime = currentTime
         
         if (scene?.physicsWorld.speed)! > CGFloat(0) && !started {
             started = true
@@ -297,7 +385,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
         // Sobe a lava
-        if (scene?.physicsWorld.speed)! > CGFloat(0) {
+        if (scene?.physicsWorld.speed)! > CGFloat(0) && canCollide && !reseting {
             //pontos = Int(currentTime - startTime)
             (pointsNode.children[0] as! SKLabelNode).text = String(pontos)
             

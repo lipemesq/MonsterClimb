@@ -26,7 +26,6 @@ class Foothold: Equatable {
     }
     
     var faceTo : FaceDirection
-    var material : Material
     
     var node : SKSpriteNode
     
@@ -38,9 +37,8 @@ class Foothold: Equatable {
     
     var devoured = false
     
-    init(faceTo: FaceDirection, material: Material, size: CGSize, node: SKSpriteNode) {
+    init(faceTo: FaceDirection, size: CGSize, node: SKSpriteNode) {
         self.faceTo = faceTo
-        self.material = material
         
         self.node = node
     }
@@ -54,25 +52,16 @@ class Foothold: Equatable {
         if faceTo == .left {
             print("face turned to left")
             devoured = true
-            if material == .gold {
-                print("made of gold")
-                sprite.texture = SKTexture(imageNamed: "ouroEsqD")
-            }
-            else if material == .diamond {
-                print("made of diamond")
-                sprite.texture = SKTexture(imageNamed: "dimaEsqD")
-            }
+            sprite.texture = SKTexture(imageNamed: "ouroEsqD")
             sprite.size = (sprite.texture?.size())!
             sprite.position = CGPoint(x: 8, y: 0)
         }
         else if faceTo == .right {
+            print("face turned to right")
             devoured = true
-            if material == .gold {
-                
-            }
-            else {
-          
-            }
+            sprite.texture = SKTexture(imageNamed: "ouroDirD")
+            sprite.size = (sprite.texture?.size())!
+            sprite.position = CGPoint(x: -8, y: 0)
         }
         
         sprite.size = CGSize(width: (actualSize.height/sprite.size.height) * sprite.size.width, height: actualSize.height)

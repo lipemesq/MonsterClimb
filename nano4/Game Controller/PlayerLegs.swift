@@ -136,8 +136,8 @@ extension GameScene {
             bodyB: player.leftFoot.physicsBody!,
             anchor: player.leftLeg.position + CGPoint(x: 0, y: -player.leftLeg.size.height))
         player.leftKnee.shouldEnableLimits = true
-        player.leftKnee.lowerAngleLimit = player.kneesLowerAngleLimit.toRadians
-        player.leftKnee.upperAngleLimit = player.kneesUpperAngleLimit.toRadians
+        player.leftKnee.lowerAngleLimit = player.kneesMinAngleLimit.toRadians
+        player.leftKnee.upperAngleLimit = player.kneesMaxAngleLimit.toRadians
         scene!.physicsWorld.add(player.leftKnee)
         
         // Junta do joelho direito
@@ -146,8 +146,8 @@ extension GameScene {
             bodyB: player.rightFoot.physicsBody!,
             anchor: player.rightLeg.position + CGPoint(x: 0, y: -player.rightLeg.size.height))
         player.rightKnee.shouldEnableLimits = true
-        player.rightKnee.lowerAngleLimit = player.kneesLowerAngleLimit.toRadians
-        player.rightKnee.upperAngleLimit = player.kneesUpperAngleLimit.toRadians
+        player.rightKnee.lowerAngleLimit = player.kneesMinAngleLimit.toRadians
+        player.rightKnee.upperAngleLimit = player.kneesMaxAngleLimit.toRadians
         scene!.physicsWorld.add(player.rightKnee)
     }
     

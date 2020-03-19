@@ -64,11 +64,12 @@ extension GameScene {
         player.rightFoot.xScale = 1
         
         player.rightKnee.shouldEnableLimits = true
-        player.rightKnee.lowerAngleLimit = -player.kneesLowerAngleLimit.toRadians
-        player.rightKnee.upperAngleLimit = player.kneesUpperAngleLimit.toRadians
+        player.rightKnee.lowerAngleLimit = -player.kneesMaxAngleLimit.toRadians
+        player.rightKnee.upperAngleLimit = player.kneesMinAngleLimit.toRadians
+        
         player.leftKnee.shouldEnableLimits = true
-        player.leftKnee.lowerAngleLimit = -player.kneesLowerAngleLimit.toRadians
-        player.leftKnee.upperAngleLimit = player.kneesUpperAngleLimit.toRadians
+        player.leftKnee.lowerAngleLimit = -player.kneesMaxAngleLimit.toRadians
+        player.leftKnee.upperAngleLimit = player.kneesMinAngleLimit.toRadians
         
         player.rightLeg.physicsBody!.applyForce(.init(dx: 500, dy: 0))
         player.rightFoot.physicsBody!.applyForce(.init(dx: 500, dy: 0))
@@ -81,11 +82,11 @@ extension GameScene {
         player.rightFoot.xScale = -1
         
         player.rightKnee.shouldEnableLimits = true
-        player.rightKnee.lowerAngleLimit = player.kneesUpperAngleLimit.toRadians
-        player.rightKnee.upperAngleLimit = player.kneesLowerAngleLimit.toRadians
+        player.rightKnee.lowerAngleLimit = player.kneesMinAngleLimit.toRadians
+        player.rightKnee.upperAngleLimit = player.kneesMaxAngleLimit.toRadians
         player.leftKnee.shouldEnableLimits = true
-        player.leftKnee.lowerAngleLimit = player.kneesUpperAngleLimit.toRadians
-        player.leftKnee.upperAngleLimit = player.kneesLowerAngleLimit.toRadians
+        player.leftKnee.lowerAngleLimit = player.kneesMinAngleLimit.toRadians
+        player.leftKnee.upperAngleLimit = player.kneesMaxAngleLimit.toRadians
         
         player.rightLeg.physicsBody!.applyForce(.init(dx: -500, dy: 0))
         player.rightFoot.physicsBody!.applyForce(.init(dx: -500, dy: 0))
