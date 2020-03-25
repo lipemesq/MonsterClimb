@@ -20,6 +20,8 @@ class GameViewController: UIViewController {
     var errorAtLoadingAd = false
     var adOk = false
     
+    var game : GameScene!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,19 +31,23 @@ class GameViewController: UIViewController {
         createAndLoadRewardedAd()
         //rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
         
-        GameCenterHelper.helper.viewController = self
+        GameCenterHelper.shared.viewController = self
+        
+        GameCenterHelper.shared.authenticateLocalPlayer(presentingVC: self)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
+                
+                scene.controller = self
                 
                 // Present the scene
                // let animation = SKTransition.fade(with: .black, duration: 2.0)
                 view.presentScene(scene)
             }
-            view.ignoresSiblingOrder = false
+            view.ignoresSiblingOrder = true
             
             view.showsPhysics = true
             view.showsFPS = true
@@ -53,7 +59,7 @@ class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        //GameCenterHelper.helper.showLeaderboard(presentingVC: GameCenterHelper.helper.viewController!)
+        //GameCenterHelper.shared.showLeaderboard(presentingVC: GameCenterHelper.shared.viewController!)
     }
 
     override var shouldAutorotate: Bool {

@@ -46,6 +46,7 @@ extension GameScene {
             group = SKAction.group([movey])
         }
         
+        animatePlayerMouth(duration: Double(minDuration))
         
         player.node.run(group, completion: {
             if completion != nil {

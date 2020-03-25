@@ -17,6 +17,8 @@ extension GameScene {
     func didBegin(_ contact: SKPhysicsContact) {
         if !reseting && canCollide {
             reseting = true
+            
+            print("Corpo a = \(contact.bodyA), e corpo b = ", contact.bodyB)
                         
             if contact.bodyA.node == lava.node || contact.bodyB.node == lava.node {
                 print("INIT COLLIDE LAVA")

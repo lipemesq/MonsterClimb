@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "56DE01B3-721E-45C5-BFCD-73E24F6D734A"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3708C355-4D77-4573-AE4E-B4CF04C596EA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nano4/Game Controller/Gestures.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "tapRecognizer(tap:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E73CD4BF-19C6-47FA-B8ED-657418476D9F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nano4/Game Controller/Gestures.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "tapRecognizer(tap:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E73CD4BF-19C6-47FA-B8ED-657418476D9F - 79cb109ae6d5af84"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Monster_Climb.GameScene.tapRecognizer(tap: __C.UITapGestureRecognizer) -&gt; ()"
+                  moduleName = "Monster Climb"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/felipemesquita/Academy/nano4/nano4/Game%20Controller/Gestures.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "7332">
+               </Location>
+               <Location
+                  uuid = "E73CD4BF-19C6-47FA-B8ED-657418476D9F - 9489577c44c27ad6"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in Monster_Climb.GameScene.tapRecognizer(tap: __C.UITapGestureRecognizer) -&gt; ()"
+                  moduleName = "Monster Climb"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/felipemesquita/Academy/nano4/nano4/Game%20Controller/Gestures.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F3758E20-7B0F-4B6B-A0B3-F43834CA03EB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nano4/Game Controller/Gestures.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "tapRecognizer(tap:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "36B952DB-6507-498C-B22B-CFBD580FE7FD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nano4/GameScene.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "init(coder:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0AB772DA-31EF-4E6B-9F9A-9820692D0C9A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "nano4/GameCenterHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "updateScore(with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0AB772DA-31EF-4E6B-9F9A-9820692D0C9A - de30f05cd71c9205"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Monster_Climb.GameCenterHelper.updateScore(with: Swift.Int) -&gt; ()"
+                  moduleName = "Monster Climb"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/felipemesquita/Academy/nano4/nano4/GameCenterHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "696">
+               </Location>
+               <Location
+                  uuid = "0AB772DA-31EF-4E6B-9F9A-9820692D0C9A - ebeeb7c10d7e086e"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.NSError&gt;) -&gt; () in Monster_Climb.GameCenterHelper.updateScore(with: Swift.Int) -&gt; ()"
+                  moduleName = "Monster Climb"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/felipemesquita/Academy/nano4/nano4/GameCenterHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

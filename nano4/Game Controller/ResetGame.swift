@@ -15,6 +15,7 @@ extension GameScene {
     
     @objc func revive() {
         print("REVIVENDO")
+        playBG()
         
         player.node.physicsBody!.affectedByGravity = false
         player.node.physicsBody?.allowsRotation = false
@@ -29,6 +30,17 @@ extension GameScene {
         reviveMenu.isHidden = true
         
         lavaSpeed = (lavaSpeed > 3 ? lavaSpeed - 1 : 2)
+        lava.node.position.y -= 200
+        
+        for enemies in inGameTiles.map({ (tile) -> [Enemy] in
+            return tile.enemies
+        }) {
+            for enemy in enemies {
+                enemy.node.isHidden = true
+                enemy.node.physicsBody = nil
+                enemy.node.isPaused = true
+            }
+        }
 
         let newHold = nearFootholds[Int(nearFootholds.count/2+1)]
         player.node.run(SKAction.move(to: newHold.position + CGPoint(x: 0, y: 10), duration: 2))
@@ -68,11 +80,18 @@ extension GameScene {
         
         progress = 0
         self.physicsWorld.speed = 1
+        
+        alreadyRevived = true
     }
     
     func killPlayer(up: Bool = false) {
+        let WITH_LOADING_BAR = true
+
+        
         print("INIT KILL")
         reseting = true
+        
+        pauseBG()
         
         playerCollider.physicsBody!.categoryBitMask = 0
         playerCollider.physicsBody!.contactTestBitMask = 0
@@ -102,7 +121,8 @@ extension GameScene {
             highscoreLabel.text = "Highscore: \(old)"
         }
         
-        GameCenterHelper.helper.updateScore(with: pontos)
+        print("YY vou mandar o update")
+        GameCenterHelper.shared.updateScore(with: pontos)
         
         reviveMenu.zPosition = 40
         reviveMenu.isHidden = false
@@ -112,24 +132,31 @@ extension GameScene {
         
         pointsLabel.text = "\(pontos)"
         
+        var loadingBar : SKShapeNode?
         
-        let loadingBar = SKShapeNode(rectOf: CGSize(width: 36, height: 1), cornerRadius: 1)
-        loadingBar.fillColor = .yellow
-        loadingBar.lineWidth = 0
+        if WITH_LOADING_BAR {
+            loadingBar = SKShapeNode(rectOf: CGSize(width: 36, height: 1), cornerRadius: 1)
+            loadingBar!.fillColor = .yellow
+            loadingBar!.lineWidth = 0
+            reviveMenu.addChild(loadingBar!)
+            loadingBar!.xScale = 1
+            loadingBar!.yScale = 1
+        }
         
-        reviveMenu.addChild(loadingBar)
-        loadingBar.xScale = 1
-        loadingBar.yScale = 1
         reviveMenu.position = CGPoint(x: 0, y: 8)
-        
         
         DispatchQueue.main.asyncAfter(deadline: .now() + self.resetTimeDelay*0.5, execute: {
             self.reviveMenu.run(SKAction.fadeAlpha(to: 0.9, duration: self.resetTimeDelay/3)) {
-                loadingBar.run(SKAction.scaleX(to: 0, duration: 5)) {
-                    if !self.showingAd {
-                        self.resetGame()
+                
+                if WITH_LOADING_BAR {
+                    loadingBar?.run(SKAction.scaleX(to: 0, duration: 5)) {
+                        if !self.showingAd && !self.reviveMenu.isHidden {
+                            print("reset by loading")
+                            self.resetGame()
+                        }
                     }
                 }
+                
             }
         })
         
@@ -161,6 +188,7 @@ extension GameScene {
 //        scene?.removeAllChildren()
         print("INIT RESETED")
         let newScene = SKScene(fileNamed: "GameScene")!
+        (newScene as! GameScene).controller = self.controller
         newScene.scaleMode = self.scaleMode
         let animation = SKTransition.fade(withDuration: 1.0)
         self.view?.presentScene(newScene, transition: animation)

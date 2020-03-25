@@ -23,6 +23,24 @@
 		0321AE8D242106AB00FD964B /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321AE8C242106AB00FD964B /* CGSize.swift */; };
 		033B6B05241C872400ED684A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 037D7015241C859900389B75 /* Assets.xcassets */; };
 		034ADA96241C5FB300FDB42B /* Existence-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 034ADA95241C5EE600FDB42B /* Existence-Light.otf */; };
+		038911D8242BA6550096E1AB /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038911D7242BA6550096E1AB /* Updatable.swift */; };
+		039142102428FFDA00C8A37B /* Ativo 33.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0391420D2428FFDA00C8A37B /* Ativo 33.pdf */; };
+		039142112428FFDA00C8A37B /* Ativo 31.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0391420E2428FFDA00C8A37B /* Ativo 31.pdf */; };
+		039142122428FFDA00C8A37B /* Ativo 32.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0391420F2428FFDA00C8A37B /* Ativo 32.pdf */; };
+		03914214242908F000C8A37B /* Sons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03914213242908F000C8A37B /* Sons.swift */; };
+		0391421724290B0700C8A37B /* bg.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421624290B0700C8A37B /* bg.wav */; };
+		03914222242A832C00C8A37B /* Lava.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03914218242A832A00C8A37B /* Lava.wav */; };
+		03914223242A832C00C8A37B /* Mordida.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03914219242A832A00C8A37B /* Mordida.wav */; };
+		03914224242A832C00C8A37B /* Conjunto completo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421A242A832A00C8A37B /* Conjunto completo.wav */; };
+		03914225242A832C00C8A37B /* Levando dano 3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421B242A832A00C8A37B /* Levando dano 3.wav */; };
+		03914226242A832C00C8A37B /* Woosh - Bixo pulando 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421C242A832A00C8A37B /* Woosh - Bixo pulando 1.wav */; };
+		03914227242A832C00C8A37B /* Morrendo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421D242A832B00C8A37B /* Morrendo.wav */; };
+		03914228242A832C00C8A37B /* Woosh - Bixo pulando 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421E242A832B00C8A37B /* Woosh - Bixo pulando 2.wav */; };
+		03914229242A832C00C8A37B /* Mixdown.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0391421F242A832B00C8A37B /* Mixdown.wav */; };
+		0391422A242A832C00C8A37B /* Levando dano 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03914220242A832B00C8A37B /* Levando dano 2.wav */; };
+		0391422B242A832C00C8A37B /* Levando dano 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03914221242A832B00C8A37B /* Levando dano 1.wav */; };
+		0391422D242B933900C8A37B /* FallingRockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0391422C242B933900C8A37B /* FallingRockController.swift */; };
+		03914230242B943D00C8A37B /* Pausable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0391422F242B943D00C8A37B /* Pausable.swift */; };
 		03EEDF232422CE60000D4B17 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03EEDF222422CE60000D4B17 /* GoogleService-Info.plist */; };
 		03F4FF6C24224CD400447657 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03F4FF5924224CD300447657 /* Montserrat-Regular.ttf */; };
 		03F4FF6D24224CD400447657 /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03F4FF5A24224CD300447657 /* Montserrat-ExtraLight.ttf */; };
@@ -78,6 +96,24 @@
 		0321AE8C242106AB00FD964B /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
 		034ADA95241C5EE600FDB42B /* Existence-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Existence-Light.otf"; sourceTree = "<group>"; };
 		037D7015241C859900389B75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		038911D7242BA6550096E1AB /* Updatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		0391420D2428FFDA00C8A37B /* Ativo 33.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Ativo 33.pdf"; sourceTree = "<group>"; };
+		0391420E2428FFDA00C8A37B /* Ativo 31.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Ativo 31.pdf"; sourceTree = "<group>"; };
+		0391420F2428FFDA00C8A37B /* Ativo 32.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Ativo 32.pdf"; sourceTree = "<group>"; };
+		03914213242908F000C8A37B /* Sons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sons.swift; sourceTree = "<group>"; };
+		0391421624290B0700C8A37B /* bg.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bg.wav; sourceTree = "<group>"; };
+		03914218242A832A00C8A37B /* Lava.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Lava.wav; sourceTree = "<group>"; };
+		03914219242A832A00C8A37B /* Mordida.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Mordida.wav; sourceTree = "<group>"; };
+		0391421A242A832A00C8A37B /* Conjunto completo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Conjunto completo.wav"; sourceTree = "<group>"; };
+		0391421B242A832A00C8A37B /* Levando dano 3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Levando dano 3.wav"; sourceTree = "<group>"; };
+		0391421C242A832A00C8A37B /* Woosh - Bixo pulando 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Woosh - Bixo pulando 1.wav"; sourceTree = "<group>"; };
+		0391421D242A832B00C8A37B /* Morrendo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Morrendo.wav; sourceTree = "<group>"; };
+		0391421E242A832B00C8A37B /* Woosh - Bixo pulando 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Woosh - Bixo pulando 2.wav"; sourceTree = "<group>"; };
+		0391421F242A832B00C8A37B /* Mixdown.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Mixdown.wav; sourceTree = "<group>"; };
+		03914220242A832B00C8A37B /* Levando dano 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Levando dano 2.wav"; sourceTree = "<group>"; };
+		03914221242A832B00C8A37B /* Levando dano 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Levando dano 1.wav"; sourceTree = "<group>"; };
+		0391422C242B933900C8A37B /* FallingRockController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallingRockController.swift; sourceTree = "<group>"; };
+		0391422F242B943D00C8A37B /* Pausable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pausable.swift; sourceTree = "<group>"; };
 		03EEDF222422CE60000D4B17 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		03F4FF5924224CD300447657 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		03F4FF5A24224CD300447657 /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -169,6 +205,8 @@
 		0321AE6C241F01EC00FD964B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0391421524290AF900C8A37B /* Sounds */,
+				0391420A2428FF7C00C8A37B /* Animations */,
 				0321AE6D241F01F900FD964B /* Fonts */,
 			);
 			path = Resources;
@@ -214,6 +252,8 @@
 				0321AE7B241F21C100FD964B /* TileController.swift */,
 				0321AE7F241FA6AB00FD964B /* ButtonDelegate.swift */,
 				03F4FFA12422C61C00447657 /* Ads.swift */,
+				03914213242908F000C8A37B /* Sons.swift */,
+				0391422C242B933900C8A37B /* FallingRockController.swift */,
 			);
 			path = "Game Controller";
 			sourceTree = "<group>";
@@ -225,6 +265,59 @@
 				A48DF61CF0E0043B23C8162D /* Pods_nano4.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0391420A2428FF7C00C8A37B /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				0391420B2428FF8600C8A37B /* Player */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		0391420B2428FF8600C8A37B /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				0391420C2428FF8C00C8A37B /* Boca */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		0391420C2428FF8C00C8A37B /* Boca */ = {
+			isa = PBXGroup;
+			children = (
+				0391420E2428FFDA00C8A37B /* Ativo 31.pdf */,
+				0391420F2428FFDA00C8A37B /* Ativo 32.pdf */,
+				0391420D2428FFDA00C8A37B /* Ativo 33.pdf */,
+			);
+			path = Boca;
+			sourceTree = "<group>";
+		};
+		0391421524290AF900C8A37B /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				0391421624290B0700C8A37B /* bg.wav */,
+				0391421A242A832A00C8A37B /* Conjunto completo.wav */,
+				03914218242A832A00C8A37B /* Lava.wav */,
+				03914221242A832B00C8A37B /* Levando dano 1.wav */,
+				03914220242A832B00C8A37B /* Levando dano 2.wav */,
+				0391421B242A832A00C8A37B /* Levando dano 3.wav */,
+				0391421F242A832B00C8A37B /* Mixdown.wav */,
+				03914219242A832A00C8A37B /* Mordida.wav */,
+				0391421D242A832B00C8A37B /* Morrendo.wav */,
+				0391421C242A832A00C8A37B /* Woosh - Bixo pulando 1.wav */,
+				0391421E242A832B00C8A37B /* Woosh - Bixo pulando 2.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		0391422E242B942E00C8A37B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				0391422F242B943D00C8A37B /* Pausable.swift */,
+				038911D7242BA6550096E1AB /* Updatable.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		03FA9930240FCB2400B96E5E = {
@@ -248,6 +341,7 @@
 		03FA993B240FCB2400B96E5E /* nano4 */ = {
 			isa = PBXGroup;
 			children = (
+				0391422E242B942E00C8A37B /* Protocols */,
 				0321AE6E241F026400FD964B /* Game Controller */,
 				0321AE68241F017C00FD964B /* Player */,
 				0321AE6C241F01EC00FD964B /* Resources */,
@@ -353,11 +447,21 @@
 			files = (
 				03F4FF7124224CD400447657 /* Montserrat-Light.ttf in Resources */,
 				03F4FF6E24224CD400447657 /* Montserrat-BlackItalic.ttf in Resources */,
+				03914227242A832C00C8A37B /* Morrendo.wav in Resources */,
+				0391422A242A832C00C8A37B /* Levando dano 2.wav in Resources */,
+				039142112428FFDA00C8A37B /* Ativo 31.pdf in Resources */,
+				03914225242A832C00C8A37B /* Levando dano 3.wav in Resources */,
 				033B6B05241C872400ED684A /* Assets.xcassets in Resources */,
 				03FA9948240FCB2400B96E5E /* Main.storyboard in Resources */,
 				03F4FF6C24224CD400447657 /* Montserrat-Regular.ttf in Resources */,
 				034ADA96241C5FB300FDB42B /* Existence-Light.otf in Resources */,
 				03F4FF7D24224CD400447657 /* OFL.txt in Resources */,
+				03914226242A832C00C8A37B /* Woosh - Bixo pulando 1.wav in Resources */,
+				03914223242A832C00C8A37B /* Mordida.wav in Resources */,
+				03914229242A832C00C8A37B /* Mixdown.wav in Resources */,
+				03914228242A832C00C8A37B /* Woosh - Bixo pulando 2.wav in Resources */,
+				03914222242A832C00C8A37B /* Lava.wav in Resources */,
+				03914224242A832C00C8A37B /* Conjunto completo.wav in Resources */,
 				03FA993F240FCB2400B96E5E /* GameScene.sks in Resources */,
 				03F4FF6D24224CD400447657 /* Montserrat-ExtraLight.ttf in Resources */,
 				03F4FF802422584B00447657 /* Gtek_Caverna.ttf in Resources */,
@@ -366,16 +470,20 @@
 				03FA994D240FCB2800B96E5E /* LaunchScreen.storyboard in Resources */,
 				03F4FF7524224CD400447657 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				03F4FF7824224CD400447657 /* Montserrat-SemiBold.ttf in Resources */,
+				039142122428FFDA00C8A37B /* Ativo 32.pdf in Resources */,
 				03F4FF6F24224CD400447657 /* Montserrat-LightItalic.ttf in Resources */,
 				03F4FF7B24224CD400447657 /* Montserrat-Italic.ttf in Resources */,
+				039142102428FFDA00C8A37B /* Ativo 33.pdf in Resources */,
 				03F4FF7424224CD400447657 /* Montserrat-ExtraBold.ttf in Resources */,
 				03F4FF7224224CD400447657 /* Montserrat-Medium.ttf in Resources */,
 				03EEDF232422CE60000D4B17 /* GoogleService-Info.plist in Resources */,
 				03F4FF7C24224CD400447657 /* Montserrat-Thin.ttf in Resources */,
+				0391422B242A832C00C8A37B /* Levando dano 1.wav in Resources */,
 				03F4FF7324224CD400447657 /* Montserrat-ExtraBoldItalic.ttf in Resources */,
 				03F4FF7A24224CD400447657 /* Montserrat-MediumItalic.ttf in Resources */,
 				03F4FF7024224CD400447657 /* Montserrat-Bold.ttf in Resources */,
 				03FA9941240FCB2400B96E5E /* Actions.sks in Resources */,
+				0391421724290B0700C8A37B /* bg.wav in Resources */,
 				03F4FF7624224CD400447657 /* Montserrat-SemiBoldItalic.ttf in Resources */,
 				03F4FF7724224CD400447657 /* Montserrat-Black.ttf in Resources */,
 			);
@@ -430,6 +538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03914214242908F000C8A37B /* Sons.swift in Sources */,
 				0321AE8D242106AB00FD964B /* CGSize.swift in Sources */,
 				0321AE7A241F217100FD964B /* Camera.swift in Sources */,
 				03FA9943240FCB2400B96E5E /* GameScene.swift in Sources */,
@@ -437,6 +546,8 @@
 				03FA9945240FCB2400B96E5E /* GameViewController.swift in Sources */,
 				0321AE89241FB77D00FD964B /* GameCenterHelper.swift in Sources */,
 				03FA99572411405A00B96E5E /* Tile.swift in Sources */,
+				038911D8242BA6550096E1AB /* Updatable.swift in Sources */,
+				03914230242B943D00C8A37B /* Pausable.swift in Sources */,
 				0321AE70241F027F00FD964B /* PlayerLegs.swift in Sources */,
 				0321AE76241F0AB000FD964B /* Gestures.swift in Sources */,
 				0321AE7E241FA5CD00FD964B /* Button.swift in Sources */,
@@ -453,6 +564,7 @@
 				0321AE8B24206B8000FD964B /* Foothold.swift in Sources */,
 				0321AE7C241F21C100FD964B /* TileController.swift in Sources */,
 				03FA99592414555500B96E5E /* CGPoint.swift in Sources */,
+				0391422D242B933900C8A37B /* FallingRockController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,7 +710,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5D66GV6LYZ;
 				INFOPLIST_FILE = nano4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -619,7 +731,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5D66GV6LYZ;
 				INFOPLIST_FILE = nano4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

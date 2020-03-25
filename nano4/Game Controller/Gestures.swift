@@ -33,16 +33,22 @@ extension GameScene {
                     SKAction.fadeOut(withDuration: 0.2)
                 ])
             ]))
-            
+                        
             var nextFoothold : Foothold?
             for foothold in nearFootholds {
                 let node = foothold.node
-                if foothold != actualFoothold && !foothold.devoured {
+                if !foothold.devoured {
                     if self.nodes(at: pos).contains(node) {
+                       // node.color = .purple
                         let distance = self.player.node.position.distance(to: foothold.position)
                         if distance < maxJumpDistance {
                             nextFoothold = foothold
                         }
+                    }
+                }
+                else {
+                    if self.nodes(at: pos).contains(node) {
+                        print("tentou redevorar")
                     }
                 }
             }

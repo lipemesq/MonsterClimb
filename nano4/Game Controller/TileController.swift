@@ -25,7 +25,11 @@ extension GameScene {
         // draw a random tile that is different from the last one,
         // set up the tile and insert into some things
         let tile = presetTiles[drawNextTileNumber()].copy() as! Tile
-        tile.position = CGPoint(x: 0, y: y)
+        
+            print("altura: ", tile.size.height)
+            print("anchor: ", tile.anchorPoint)
+        
+        tile.position = CGPoint(x: 0, y: (y + tile.size.height * (tile.anchorPoint.y)))
         inGameTiles.append(tile)
         insertChild(tile, at: 0)
         
@@ -57,6 +61,7 @@ extension GameScene {
     
     
     func drawNextTileNumber() -> Int {
+        print("array: ", tilesProbabilityList)
         var randomTileNumber : Int
         var randomIndex : Int
         repeat {
@@ -89,7 +94,7 @@ extension GameScene {
         let firstTile = inGameTiles.first!
         
         // Se ele tiver abaixo da lava
-        if firstTile.position.y < lava.node.position.y {
+        if (firstTile.position.y + firstTile.size.height/2) < (lava.node.position.y + lava.node.size.height/2) {
             // Remove os footholds da lista
             nearFootholds.removeFirst(firstTile.footholds.count)
             

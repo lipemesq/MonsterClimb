@@ -14,6 +14,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // ******************************************
     // MARK: - PROPERTIES
     
+    var controller : GameViewController!
+    
     // Controle do fluxo
     var reseting = false
     var lastGameUpdate : TimeInterval = TimeInterval(0)
@@ -24,6 +26,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var canDoInitialTap = false
     var tapp = false
     var showingAd = false
+    
+    // Pedras
+    var fallingRocksController : FallingRockController!
     
     
     var canCollide = true
@@ -44,7 +49,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pointsLabel : SKLabelNode!
     var highscoreLabel : SKLabelNode!
     var restartButton : Button!
+    var alreadyRevived = false
     
+    // Som
+    var backgroundMusicNode : SKAudioNode!
 
     // Pontos
     var pointsNode : SKSpriteNode!
@@ -55,13 +63,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var inGameTiles : [Tile] = []
     var tilesProbabilityList : [Int] = []
     var lastTileAdded = -1
-    var mostDifficultTileNumber = 4
+    var mostDifficultTileNumber = 10
     var newTilesCount = 0
     
     // Player
     var player : Player!
     let maxJumpDistance : CGFloat = 700
     var playerCollider : SKSpriteNode!
+    var playerSprites : [SKTexture] = []
     
     // Camera
     var cam : SKCameraNode = SKCameraNode()
@@ -76,6 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lavaSpeed : CGFloat = 2
     let maxLavaSpeed : CGFloat = 6
     let lavaAcceleration : CGFloat = 0.001
+    var lavaSoundNode : SKAudioNode!
+    let distanceToFadeLavaSound : CGFloat = 3000
     
     // Próximos pontos de apoio
     var nearFootholds : [Foothold] = []
@@ -85,6 +96,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var titleClimb : SKLabelNode!
     
     var leaderboard : Button!
+    
+    
+    func adLoaded() {
+        buttonRevive.isHidden = false
+    }
+    
+    func noAds() {
+        buttonRevive.isHidden = true
+    }
+    
+    func initPlayerAnimations() {
+        let mouthAnimatedAtlas = SKTextureAtlas(named: "BocaSprites")
+        var mouthFrames: [SKTexture] = []
+        
+        let numImages = mouthAnimatedAtlas.textureNames.count
+        for i in 1...numImages {
+            let mouthTextureName = "boca\(i)"
+            mouthFrames.append(mouthAnimatedAtlas.textureNamed(mouthTextureName))
+        }
+        playerSprites = mouthFrames
+    }
+    
+    func animatePlayerMouth(duration: Double) {
+        let sprite = (player.node.childNode(withName: "sprite") as! SKSpriteNode)
+        sprite.run(
+            SKAction.animate(with: playerSprites,
+                             timePerFrame: TimeInterval(duration/Double(playerSprites.count)),
+                             resize: true,
+                             restore: true),
+                 withKey:"boca")
+    }
     
     
     // ******************************************
@@ -105,8 +147,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+                
         print("INIT 1")
+        
+        initPlayerAnimations()
         
         NotificationCenter.default.addObserver(self, selector: #selector(mustReset), name: .mustReset, object: nil)
         
@@ -187,7 +231,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Pega os prefabs de fase
-        for i in 1...4 {
+        for i in 1...6 {
+            print("fase ", i)
             let tile = self.childNode(withName: "fase\(i)") as! Tile
             presetTiles.append(tile)
             for _ in 1...tile.getProbability() {
@@ -211,19 +256,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Adiciona os tiles na cena, cada um com sua altura
-        var yoffset : CGFloat = 0
+        var top : CGFloat = -inGameTiles.first!.size.height/2
         for i in inGameTiles.indices {
             let tile = inGameTiles[i]
-            tile.position.y = yoffset
+            top += tile.size.height/2
+            
+            tile.position.y = top
             tile.position.x = 0
-            yoffset += tile.size.height
+            
+            top += tile.size.height/2
             
             tile.loadFootholds()
             nearFootholds.append(contentsOf: tile.footholds1)
-            //(contentsOf: tile.footholds.map({ (f) -> CGPoint in
-            //                let point =  tile.convert(f.position, to: scene!)
-            //                return point
-            //            }))
             
             tile.loadEnemies()
             for enemy in tile.enemies {
@@ -240,6 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lava.node.physicsBody!.categoryBitMask = 1
         lava.node.physicsBody!.contactTestBitMask = playerCollider.physicsBody!.categoryBitMask
         lava.node.physicsBody!.collisionBitMask = 0
+        lavaSoundNode = (lava.node.childNode(withName: "sound") as! SKAudioNode)
         
         
         // Revive Menu
@@ -297,13 +342,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
+    // MARK: - DID MOVE
+    
     override func didMove(to view: SKView) {
         
         print("INIT 2")
+        controller.game = self
+        
+        // Pedras
+        let rock = (childNode(withName: "pedra") as! SKSpriteNode)
+        rock.physicsBody = SKPhysicsBody(circleOfRadius: rock.size.width/2, center: CGPoint(x: 0, y: 70))
+        rock.physicsBody?.affectedByGravity = false
+        rock.physicsBody?.allowsRotation = false
+        rock.physicsBody?.isDynamic = false
+        
+        rock.physicsBody!.categoryBitMask = 0
+        rock.physicsBody?.contactTestBitMask = 0
+        rock.physicsBody?.collisionBitMask = 0
+        
+        fallingRocksController = FallingRockController(scene: self, node: rock)
+        
+        buttonRevive.isHidden = true
 
         // adiciona o tap controller
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer(tap:)))
         view.addGestureRecognizer(tap)
+        
+        // inicia os sons
+        initBackgroundMusic()
+        playBG()
+        
+        // pega o ad se já tiver
+        if controller.haveLoadedAd {
+            adLoaded()
+        }
     }
     var boxTapToStart : SKShapeNode!
     
@@ -352,6 +425,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if physicsWorld.speed > CGFloat(0) {
+            fallingRocksController.update(deltaTime: currentTime - deltaTime)
+        } 
+        
         deltaTime = currentTime
         
         if (scene?.physicsWorld.speed)! > CGFloat(0) && !started {
@@ -365,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Verifica se daqui a pouco o player chega num tile novo
             let lastTile = inGameTiles.last!
-            let top = lastTile.position.y + lastTile.size.height
+            let top = lastTile.position.y + lastTile.size.height / 2
             let dyTilTop = top - player.node.position.y
             
             // se vai chegar (agora a 1,5 tile do topo)
@@ -383,6 +460,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         moveCamera(currentTime: currentTime)
 
+        // som da lava
+        let lavaDistanceToPlayer = abs(lava.node.position.distance(to: player!.node.position))
+        let lavaSoundProportion = (lavaDistanceToPlayer / distanceToFadeLavaSound)
+        let actualLavaSound = lavaSoundProportion > 0.9 ? 0.9 : lavaSoundProportion
+        lavaSoundNode.run(SKAction.changeVolume(to: Float(1 - actualLavaSound), duration: 0))
         
         // Sobe a lava
         if (scene?.physicsWorld.speed)! > CGFloat(0) && canCollide && !reseting {

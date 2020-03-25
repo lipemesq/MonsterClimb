@@ -14,7 +14,7 @@ extension GameScene: ButtonDelegate {
         if button.name == "leaderboard" {
            
            print("TOCOU VAMO ABRIR")
-            GameCenterHelper.helper.showLeaderboard(presentingVC: GameCenterHelper.helper.viewController!)
+            GameCenterHelper.shared.showLeaderboard(presentingVC: GameCenterHelper.shared.viewController!)
             return
         }
         

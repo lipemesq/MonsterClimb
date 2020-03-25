@@ -1,102 +1,134 @@
-//
-//  GameCenterHelper.swift
-//  OgreJump
-//
-//  Created by M Cavasin on 12/03/20.
-//  Copyright © 2020 M Cavasin. All rights reserved.
-//
-
-/// Copyright (c) 2018 Razeware LLC
-///
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-///
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-///
-/// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
-/// distribute, sublicense, create a derivative work, and/or sell copies of the
-/// Software in any work that is designed, intended, or marketed for pedagogical or
-/// instructional purposes related to programming, coding, application development,
-/// or information technology.  Permission for such use, copying, modification,
-/// merger, publication, distribution, sublicensing, creation of derivative works,
-/// or sale is expressly withheld.
-///
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
+// by valengo: https://github.com/valengo/iOS-GameCenter/blob/master/GameCenter.swift
 
 import GameKit
 
 final class GameCenterHelper: NSObject, GKGameCenterControllerDelegate {
     
+    static let shared = GameCenterHelper()
     
-  typealias CompletionBlock = (Error?) -> Void
-    // 1
-    static let helper = GameCenterHelper()
-
-    // 2
-    var viewController: UIViewController?
+    private(set) var isGameCenterEnabled = false
     
-    private var localPlayer = GKLocalPlayer.local
-    private var leaderboardID = "com.highscore.cm"
-    private var scores: [(playerName: String, score: Int)]?
-    private var leaderboard: GKLeaderboard?
+    private let localPlayer = GKLocalPlayer.local
     
+    private let leaderboardID = "com.highscore.cm"
     
-    override init() {
-      super.init()
+    private var defaultLeaderboardId = "com.highscore.cm"
+    
+    var viewController : UIViewController!
+    
+    private override init() {
         
-      GKLocalPlayer.local.authenticateHandler = { gcAuthVC, error in
+    }
+    
+    func authenticateLocalPlayer(presentingVC: UIViewController) {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.local
+        
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // Show login if player is not logged in
+                presentingVC.present(ViewController!, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
+                // 2 Player is already euthenticated & logged in, load game center
+                self.isGameCenterEnabled = true
+                
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer: String?, error: Error?) -> Void in
+                    if error != nil {
+                        print(error!)
+                    } else {
+                        self.defaultLeaderboardId = leaderboardIdentifer!
+                        print("LLL default ID = ", self.defaultLeaderboardId)
+                    }
+                    })
+            } else {
+                // 3 Game center is not enabled on the users device
+                self.isGameCenterEnabled = false
+                print("Local player could not be authenticated, disabling game center")
+                print(error ?? "else?")
+            }
+            
+        }
+        
+//        localPlayer.authenticateHandler = { [weak self] (gameCenterViewController, error) -> Void in
+//            if let error = error {
+//                print(error)
+//            } else if let gameCenterViewController = gameCenterViewController {
+//                presentingVC.present(gameCenterViewController, animated: true, completion: nil)
+//            } else if (self?.localPlayer.isAuthenticated ?? false) {
+//                self?.isGameCenterEnabled = true
+//            } else {
+//                self?.isGameCenterEnabled = false
+//                print("Local player cannot be authenticated!")
+//            }
+//        }
+    }
+    
+    func updateScore(with value: Int) {
+        print("YY mandando")
+
+//        let sScore = GKScore(leaderboardIdentifier: leaderboardID)
+//        sScore.value = Int64(value)
+//
+//        print("YY vou reportar")
+//
+//        GKScore.report([sScore], withCompletionHandler: { (error: NSError?) -> Void in
+//            if error != nil {
+//                print("YY erro = ", error!.localizedDescription)
+//            } else {
+//                print("YY Score submitted")
+//            }
+//            } as? (Error?) -> Void)
+//
+//        print("YY reportei")
+
+        
         if GKLocalPlayer.local.isAuthenticated {
-          print("Authenticated to Game Center!")
-        } else if let vc = gcAuthVC {
-          self.viewController?.present(vc, animated: true)
+
+            let scoreReporter = GKScore(leaderboardIdentifier: leaderboardID)
+            scoreReporter.value = Int64(value)
+            let scoreArray : [GKScore] = [scoreReporter]
+
+            GKScore.report(scoreArray) { (error) in
+                print("YY o erro = \(error)")
+            }
+
+             print("YY reportei")
         }
-        else {
-          print("Error authentication to GameCenter: " +
-            "\(error?.localizedDescription ?? "none")")
-        }
-      }
+        
+        
+        
+//        let score = GKScore(leaderboardIdentifier: leaderboardID)
+//        score.value = Int64(value)
+//        GKScore.report([score], withCompletionHandler: {(error) in
+//            if let error = error {
+//                print("Error while trying to update score \(error)")
+//            }
+//        })
+    }
+    
+    func showLeaderboard(presentingVC: UIViewController) {
+        let gcViewController: GKGameCenterViewController = GKGameCenterViewController()
+        gcViewController.gameCenterDelegate = self
+        
+        gcViewController.viewState = GKGameCenterViewControllerState.leaderboards
+        
+        
+        gcViewController.leaderboardIdentifier = leaderboardID
+        
+        presentingVC.present(gcViewController, animated: true, completion: nil)
+         
+
+//        let gameCenterViewController = GKGameCenterViewController()
+//        gameCenterViewController.
+//        gameCenterViewController.gameCenterDelegate = self
+//        gameCenterViewController.viewState = .leaderboards
+//        gameCenterViewController.leaderboardIdentifier = leaderboardID
+//        presentingVC.present(gameCenterViewController, animated: true, completion: nil)
     }
     
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
-    
-    
-    
-    func updateScore(with value: Int) {
-        let score = GKScore(leaderboardIdentifier: leaderboardID)
-        score.value = Int64(value)
-        GKScore.report([score], withCompletionHandler: {(error) in
-            if let error = error {
-                print("Error while trying to update score \(error)")
-            }
-        })
-    }
-    
-    func getUserHighscore() -> Int{
-        let score = GKScore(leaderboardIdentifier: leaderboardID)
-        return Int(score.value)
-    }
-    
-    func showLeaderboard(presentingVC: UIViewController) {
-        let gameCenterViewController = GKGameCenterViewController()
-        gameCenterViewController.gameCenterDelegate = self
-        gameCenterViewController.viewState = .leaderboards
-        gameCenterViewController.leaderboardIdentifier = leaderboardID
-        presentingVC.present(gameCenterViewController, animated: true, completion: nil)
-    }
-    
 }
 
 

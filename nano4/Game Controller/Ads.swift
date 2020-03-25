@@ -20,6 +20,7 @@ extension GameViewController: GADRewardedAdDelegate {
                 print("Loading failed: \(error)")
             } else {
                 self.haveLoadedAd = true
+                self.game.adLoaded()
             }
         }
     }
@@ -47,7 +48,7 @@ extension GameViewController: GADRewardedAdDelegate {
     }
     
     func createAndLoadRewardedAd() {
-        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-3940256099942544/1712485313")
+        rewardedAd = GADRewardedAd(adUnitID: "ca-app-pub-9518899348446984/6807270448")
         loadAd()
     }
     //"ca-app-pub-9518899348446984/6807270448"
@@ -55,8 +56,12 @@ extension GameViewController: GADRewardedAdDelegate {
     
     /// Tells the delegate that the rewarded ad was dismissed.
     func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+        self.game.noAds()
+        haveLoadedAd = false
         createAndLoadRewardedAd()
         if adOk {
+            haveLoadedAd = true
+            self.game.adLoaded()
             NotificationCenter.default.post(name: .adEndNice, object: nil)
             adOk = false
         }
